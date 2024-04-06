@@ -11,6 +11,7 @@ export const signup = async (req, res) => {
 		}
 
 		const user = await User.findOne({ userName });
+
 		if (user) {
 			return res.status(400).json({ error: "Username already exists." });
 		}
@@ -18,6 +19,7 @@ export const signup = async (req, res) => {
 		// Hash password here
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
+		
 		// https://avatar-placeholder.iran.liara.run/
 
 		const boyProfilePicture = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
