@@ -24,6 +24,7 @@ const useSignup = () => {
 			}
 
 			// localstorage
+			// context
 
 			console.log(data);
 		} catch (error) {
