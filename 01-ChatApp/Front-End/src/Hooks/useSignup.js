@@ -23,7 +23,7 @@ const useSignup = () => {
 				throw new Error(data.error);
 			}
 
-
+			// localstorage
 
 			console.log(data);
 		} catch (error) {
