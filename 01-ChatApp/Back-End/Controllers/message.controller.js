@@ -1,69 +1,79 @@
+// message.controller.js is responsible for handling message-related operations
+// in the chat application. It supports sending messages between users and
+// retrieving the message history of a conversation.
+
 import Conversation from "../Models/conversation.model.js";
 import Message from "../Models/message.model.js";
 import { getReceiverSocketId, io } from "../Socket/socket.js";
 
+// Function to send a message from one user to another
 export const sendMessage = async (req, res) => {
-	try {
-		const { message } = req.body;
-		const { id: receiverId } = req.params;
-		const senderId = req.user._id;
+    try {
+        const { message } = req.body; // Extract message text from request body
+        const { id: receiverId } = req.params; // Extract receiver ID from URL parameters
+        const senderId = req.user._id; // Sender ID from authenticated user
 
-		let conversation = await Conversation.findOne({
-			participants: { $all: [senderId, receiverId] },
-		});
+        // Look for an existing conversation between the sender and receiver
+        let conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId] },
+        });
 
-		if (!conversation) {
-			conversation = await Conversation.create({
-				participants: [senderId, receiverId],
-			});
-		}
+        // If no existing conversation, create a new one
+        if (!conversation) {
+            conversation = await Conversation.create({
+                participants: [senderId, receiverId],
+            });
+        }
 
-		const newMessage = new Message({
-			senderId,
-			receiverId,
-			message,
-		});
+        // Create a new message document
+        const newMessage = new Message({
+            senderId,
+            receiverId,
+            message,
+        });
 
-		if (newMessage) {
-			conversation.messages.push(newMessage._id);
-		}
+        // Add message ID to conversation's messages array
+        if (newMessage) {
+            conversation.messages.push(newMessage._id);
+        }
 
-		// await conversation.save();
-		// await newMessage.save();
+        // Save conversation and message documents in parallel
+        await Promise.all([conversation.save(), newMessage.save()]);
 
-		// this will run in parallel
-		await Promise.all([conversation.save(), newMessage.save()]);
+        // Using Socket.io to emit the new message to the receiver if they are online
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage); // Emit the message to the specific client
+        }
 
-		// SOCKET IO FUNCTIONALITY WILL GO HERE
-		const receiverSocketId = getReceiverSocketId(receiverId);
-		if (receiverSocketId) {
-			// io.to(<socket_id>).emit() used to send events to specific client
-			io.to(receiverSocketId).emit("newMessage", newMessage);
-		}
-
-		res.status(201).json(newMessage);
-	} catch (error) {
-		console.log("Error in sendMessage controller: ", error.message);
-		res.status(500).json({ error: "Internal server error" });
-	}
+        // Respond with the new message object
+        res.status(201).json(newMessage);
+    } catch (error) {
+        console.log("Error in sendMessage controller: ", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
 
+// Function to retrieve all messages in a conversation between two users
 export const getMessages = async (req, res) => {
-	try {
-		const { id: userToChatId } = req.params;
-		const senderId = req.user._id;
+    try {
+        const { id: userToChatId } = req.params; // Extract the other user's ID from URL parameters
+        const senderId = req.user._id; // Sender ID from authenticated user
 
-		const conversation = await Conversation.findOne({
-			participants: { $all: [senderId, userToChatId] },
-		}).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
+        // Find the conversation between the two users
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, userToChatId] },
+        }).populate("messages"); // Populate the messages array to return the message details
 
-		if (!conversation) return res.status(200).json([]);
+        // If no conversation is found, return an empty array
+        if (!conversation) return res.status(200).json([]);
 
-		const messages = conversation.messages;
+        const messages = conversation.messages; // Extract messages from the conversation
 
-		res.status(200).json(messages);
-	} catch (error) {
-		console.log("Error in getMessages controller: ", error.message);
-		res.status(500).json({ error: "Internal server error" });
-	}
+        // Respond with the array of messages
+        res.status(200).json(messages);
+    } catch (error) {
+        console.log("Error in getMessages controller: ", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
