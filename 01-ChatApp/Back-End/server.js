@@ -10,10 +10,10 @@ import userRoutes from "./Routes/user.routes.js";
 
 // Data Base imports:
 import connectToMongoDB from "./DataBase/connectToMongoDB.js";
+import { app, server } from "./Socket/socket.js";
 
 dotenv.config();
 
-const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(express.json()); // To parse incoming requests with JSON payloads (from req.body)
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 });
 */
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	connectToMongoDB();
 	console.log(`Server running on port ${PORT}`);
 });
