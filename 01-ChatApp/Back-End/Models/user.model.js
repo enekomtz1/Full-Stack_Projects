@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		userName: {
+		username: {
 			type: String,
 			required: true,
 			unique: true,
@@ -14,22 +14,20 @@ const userSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: true,
-			minlenght: 6,
+			minlength: 6,
 		},
 		gender: {
 			type: String,
 			required: true,
 			enum: ["male", "female"],
 		},
-		profilePicture: {
+		profilePic: {
 			type: String,
 			default: "",
 		},
+		// createdAt, updatedAt => Member since <createdAt>
 	},
-	{
-		// createdAt,updatedAt => Member since <createdAt>
-		timestamps: true,
-	}
+	{ timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);
