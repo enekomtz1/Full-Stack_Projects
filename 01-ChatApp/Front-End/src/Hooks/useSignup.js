@@ -11,7 +11,6 @@ const useSignup = () => {
 		if (!success) return;
 
 		setLoading(true);
-
 		try {
 			const res = await fetch("/api/auth/signup", {
 				method: "POST",
@@ -20,15 +19,11 @@ const useSignup = () => {
 			});
 
 			const data = await res.json();
-
 			if (data.error) {
 				throw new Error(data.error);
 			}
-
 			localStorage.setItem("chat-user", JSON.stringify(data));
-			setAuthUser(sata);
-
-			console.log(data);
+			setAuthUser(data);
 		} catch (error) {
 			toast.error(error.message);
 		} finally {
@@ -38,7 +33,6 @@ const useSignup = () => {
 
 	return { loading, signup };
 };
-
 export default useSignup;
 
 function handleInputErrors({ fullName, username, password, confirmPassword, gender }) {
