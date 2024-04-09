@@ -108,7 +108,7 @@
 
 /* Text with a horizontal gradient, clipped to text */
 .orange_gradient {
-	@apply bg-gradient-to-r from-blue-500 via-blue-800 to-blue-400 bg-clip-text text-transparent;
+	@apply bg-gradient-to-r from-blue-600 via-blue-800 to-blue-500 bg-clip-text text-transparent;
 }
 
 /* Centered description text with specific max-width */
