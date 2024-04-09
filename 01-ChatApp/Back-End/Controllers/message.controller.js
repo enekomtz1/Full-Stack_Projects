@@ -55,7 +55,7 @@ export const sendMessage = async (req, res) => {
 };
 
 // Function to retrieve all messages in a conversation between two users
-export const getMessages = async (req, res) => {
+export const getMessage = async (req, res) => {
     try {
         const { id: userToChatId } = req.params; // Extract the other user's ID from URL parameters
         const senderId = req.user._id; // Sender ID from authenticated user
