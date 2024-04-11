@@ -1,147 +1,75 @@
-@tailwind base; /* Imports base styles from Tailwind CSS */
-@tailwind components; /* Imports component styles from Tailwind CSS */
-@tailwind utilities; /* Imports utility classes from Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/*
-  .main class is used for the main container element in the layout.
-  It serves as the primary structural element of the page,
-  encompassing the central content and providing a base for positioning other nested elements.
-  The class defines a fixed position, ensuring it covers the entire viewport and remains in place during scrolling.
-  It uses flexbox to center content within and applies padding to maintain consistent spacing.
-  The pointer-events property is set to 'none' to prevent the
-  element from receiving click events, allowing interactions with elements behind it.
-*/
 .main {
-	width: 100vw; /* Full viewport width */
-	min-height: 100vh; /* Minimum height to fill the viewport */
-	position: fixed; /* Fixed position to stay in place during scrolling */
-	display: flex; /* Use flexbox for layout */
-	justify-content: center; /* Center content horizontally */
-	padding: 120px 24px 160px 24px; /* Top, right, bottom, and left padding */
-	pointer-events: none; /* Disables pointer events like mouse clicks */
+	width: 100vw;
+	min-height: 100vh;
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	padding: 120px 24px 160px 24px;
+	pointer-events: none;
 }
 
-/*
-  .main:before is a pseudo-element of the .main class,
-  used to add a decorative or functional layer before the content of .main.
-  This pseudo-element creates a background effect using a radial gradient, adding visual depth to the design.
-  Positioned absolutely, it spans the entire size of the .main container,
-  forming the first layer of the background, under the actual content but above other background layers.
-*/
 .main:before {
-	background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa 100%); /* Creates a radial gradient background */
-	position: absolute; /* Absolute positioning relative to .main */
-	content: ""; /* Necessary for pseudo-elements */
-	z-index: 2; /* Layer order */
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	top: 0; /* Position at the top */
-}
-
-/*
-  .main:after is another pseudo-element of the .main class,
-  similar to .main:before but used to add a layer after the content of .main.
-  It typically serves to create an overlay or additional background detail.
-  In this case, it sets a background image with a grid pattern,
-  positioned absolutely to cover the entire area of .main.
-  The opacity and filter properties adjust the visual style of this layer,
-  creating a subtle textured effect that complements the overall design theme.
-*/
-.main:after {
-	content: ""; /* Necessary for pseudo-elements */
-	background-image: url("/src/assets/grid.svg"); /* Sets a background image */
-	z-index: 1; /* Layer order, below :before */
-	position: absolute; /* Absolute positioning relative to .main */
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	top: 0; /* Position at the top */
-	opacity: 0.4; /* Partial transparency */
-	filter: invert(1); /* Inverts the colors */
-}
-
-/*
-  The .gradient class applies a sophisticated multicolor radial gradient effect to the element it is assigned to.
-  This class is used to generate a dynamic and colorful background,
-  often giving the impression of a dispersed light or color spots across the surface.
-  It leverages multiple radial-gradient functions, each defining a circular color transition starting from a specific
-  color at its center fading into transparency towards its perimeter.
-  These gradients are layered over each other to create a rich, textured appearance.
-*/
-.gradient {
-	height: fit-content; /* Height just enough to fit its content */
-	z-index: 3; /* Layer order, above .main:before and .main:after */
-	width: 100%; /* Full width */
-	max-width: 640px; /* Maximum width */
-	background-image: /* Multiple radial gradients creating a colorful effect */ radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 1) 0px, transparent 0%),
-		radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%), radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
-		radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%), radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
-		radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%), radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
-	position: absolute; /* Absolute positioning */
-	content: ""; /* Necessary for the element */
-	filter: blur(100px) saturate(150%); /* Blurs and increases saturation */
-	top: 80px; /* Position from the top */
-	opacity: 0.15; /* Partial transparency */
+	background-color: #ffffff;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' %3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='0' y1='0' y2='1' gradientTransform='rotate(0,0.5,0.5)'%3E%3Cstop offset='0' stop-color='%23FFFFFF'/%3E%3Cstop offset='1' stop-color='%23C2D3EB'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpattern id='b' width='6' height='6' patternUnits='userSpaceOnUse'%3E%3Ccircle fill='%23FFFFFF' cx='3' cy='3' r='3'/%3E%3C/pattern%3E%3Crect width='100%25' height='100%25' fill='url(%23a)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23b)' fill-opacity='0.1'/%3E%3C/svg%3E");
+	background-attachment: fixed;
+	position: absolute;
+	content: "";
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	top: 0;
 }
 
 @media screen and (max-width: 640px) {
 	.main {
-		padding: 0; /* Removes padding for small screens */
+		padding: 0;
 	}
 }
 
-/* Tailwind Styles are applied using @apply directive to combine custom styles with Tailwind's utility classes */
-
-/* Centered, flexible column layout with specific max-width and padding */
 .app {
 	@apply relative z-10 flex justify-center items-center flex-col max-w-7xl mx-auto sm:px-16 px-6;
 }
 
-/* Black button with text, transitions to inverted colors on hover */
 .black_btn {
 	@apply rounded-full border border-black bg-black py-1.5 px-5 text-sm text-white transition-all hover:bg-white hover:text-black;
 }
 
-/* Large, bold, centered heading text with specific leading */
 .head_text {
 	@apply mt-5 text-5xl font-extrabold leading-[1.15] text-black sm:text-6xl text-center;
 }
 
-/* Text with a horizontal gradient, clipped to text */
-.orange_gradient {
+.title_blue_gradient {
 	@apply bg-gradient-to-r from-blue-600 via-blue-800 to-blue-500 bg-clip-text text-transparent;
 }
 
-/* Centered description text with specific max-width */
 .desc {
 	@apply mt-5 text-lg text-gray-600 sm:text-xl text-center max-w-2xl;
 }
 
-/* Full-width input with padding, border, shadow, and focus styles */
 .url_input {
 	@apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-10 pr-12 text-sm shadow-lg font-satoshi font-medium focus:border-black focus:outline-none focus:ring-0;
 }
 
-/* Button with hover effect, absolute positioning */
 .submit_btn {
 	@apply hover:border-gray-700 hover:text-gray-700 absolute inset-y-0 right-0 my-1.5 mr-1.5 flex w-10 items-center justify-center rounded border border-gray-200 font-sans text-sm font-medium text-gray-400;
 }
 
-/* Card style with padding, border, rounded corners, and cursor pointer */
 .link_card {
 	@apply p-3 flex justify-start items-center flex-row bg-white border border-gray-200 gap-3 rounded-lg cursor-pointer;
 }
 
-/* Circular button with backdrop blur and shadow */
 .copy_btn {
 	@apply w-7 h-7 rounded-full bg-white/10 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;
 }
 
-/* Text with a blue to cyan gradient, clipped to text */
-.blue_gradient {
-	@apply font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
+.summary_blue_gradient {
+	@apply font-black bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent;
 }
 
-/* Box with rounded corners, border, shadow, and backdrop blur */
 .summary_box {
-	@apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-4;
+	@apply rounded-xl border border-gray-200 bg-white shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-4;
 }
