@@ -1,5 +1,6 @@
 /*
-- This file is the entry point of the React application, setting up the initial rendering and integrating the Redux store.
+- This file is the entry point of the React application,
+  setting up the initial rendering and integrating the Redux store.
 */
 
 // Import the React library to enable JSX and React component functionality.

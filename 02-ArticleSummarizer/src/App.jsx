@@ -1,7 +1,10 @@
 /*
 - This file defines the main structure of the Article Summarizer application.
+
 - It uses React functional components and imports custom components (Hero and Demo),
-- along with styling from App.css. The App component assembles the application's layout.
+  along with styling from App.css.
+  
+- The App component assembles the application's layout.
 */
 
 import Hero from "./components/Hero"; // Import the Hero component from the components directory.

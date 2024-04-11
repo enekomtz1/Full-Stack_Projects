@@ -1,7 +1,10 @@
 /*
 - Demo.jsx is a React component that summarizes articles.
+
 - It interacts with a backend service to fetch summaries of articles.
+
 - It manages user input and display of summarized articles.
+
 - Allows users to enter an article URL, retrieves and displays the summary using a lazy-loaded query,
   manages article data in local storage, and provides a history of processed articles for quick access.
 */
@@ -128,7 +131,7 @@ const Demo = () => {
 							<h2 className="font-satoshi font-bold text-gray-600 text-xl">
 								Article <span className="summary_blue_gradient">Summary</span>
 							</h2>
-							
+
 							<div className="summary_box">
 								<p className="font-inter font-medium text-sm text-gray-700">{article.summary}</p>
 							</div>

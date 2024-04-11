@@ -1,6 +1,7 @@
 /*
 - The Hero.jsx component serves as the hero section of a web application, displaying the logo,
   a link to a GitHub page, and introductory text about the service offered by the application.
+  
 - This component primarily consists of a header tag that structures the hero section,
   containing a navigation bar with the site's logo and a GitHub link button,
   followed by the main heading and subheading that introduce the service provided by the app.
