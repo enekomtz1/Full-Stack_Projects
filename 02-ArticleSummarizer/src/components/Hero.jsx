@@ -1,7 +1,7 @@
 /*
 - The Hero.jsx component serves as the hero section of a web application, displaying the logo,
   a link to a GitHub page, and introductory text about the service offered by the application.
-  
+
 - This component primarily consists of a header tag that structures the hero section,
   containing a navigation bar with the site's logo and a GitHub link button,
   followed by the main heading and subheading that introduce the service provided by the app.
@@ -25,7 +25,11 @@ const Hero = () => {
 				<img src={logo} alt="logo" className="w-28 object-contain" />
 
 				{/* Button linking to a GitHub profile, opens in a new tab */}
-				<button type="button" onClick={() => window.open("https://github.com/enekomtz1", "_blank")} className="black_btn">
+				<button
+					type="button"
+					onClick={() => window.open("https://github.com/enekomtz1/Full-Stack_Projects/tree/8753c67e46b8b4c4d5a6c07b8bffb30149cd38f5/02-ArticleSummarizer", "_blank")}
+					className="black_btn"
+				>
 					GitHub
 				</button>
 			</nav>
