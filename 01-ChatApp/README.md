@@ -1,6 +1,6 @@
 # Real-Time Chat App (MERN Stack)
 
-[Chat App Banner](https://i.imgur.com/OOHKIvG.png)
+![Chat App Banner](https://i.imgur.com/OOHKIvG.png)
 
 ## Table of Contents
 
