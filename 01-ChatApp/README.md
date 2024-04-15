@@ -52,7 +52,7 @@ This project is a real-time chat application built using the MERN stack (MongoDB
 To set up the application on your local machine, follow these steps:
 
 ```bash
-git clone https://github.com/your-repository/01-chatapp.git
+git clone https://github.com/enekomtz1/Full-Stack_Projects.git
 cd 01-chatapp
 npm install
 ```
