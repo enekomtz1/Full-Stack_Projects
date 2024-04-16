@@ -4,7 +4,7 @@ It ensures that the request is authenticated using a JSON Web Token (JWT).
 */
 
 import jwt from "jsonwebtoken"; // Import JWT to handle token operations
-import User from "../Models/user.model.js"; // Import the user model to access user data
+import User from "../models/user.model.js"; // Import the user model to access user data
 
 // Middleware function to protect routes
 const protectRoute = async (req, res, next) => {

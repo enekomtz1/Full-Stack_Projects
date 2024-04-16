@@ -3,8 +3,8 @@ Routing for message-related operations in your chat application.
 */
 
 import express from "express"; // Import Express to create the router
-import { sendMessage, getMessage } from "../Controllers/message.controller.js"; // Import the message controller functions
-import protectRoute from "../Middleware/protectRoute.js"; // Import the middleware to protect routes
+import { sendMessage, getMessage } from "../controllers/message.controller.js"; // Import the message controller functions
+import protectRoute from "../middleware/protectRoute.js"; // Import the middleware to protect routes
 
 const router = express.Router(); // Create a new router instance for message routes
 

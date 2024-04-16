@@ -10,7 +10,7 @@ import messageRoutes from "./Routes/message.routes.js";
 import userRoutes from "./Routes/user.routes.js";
 
 // DataBase import
-import connectToMongoDB from "./DataBase/connectToMongoDB.js";
+import connectToMongoDB from "./database/connectToMongoDB.js";
 import { app, server } from "./Socket/socket.js"; // Import express app and server from socket configuration
 
 dotenv.config(); // Load environment variables from .env file into process.env

@@ -1,5 +1,5 @@
 // Import the user model to interact with the user database collection
-import User from "../Models/user.model.js";
+import User from "../models/user.model.js";
 
 // Controller to get a list of users for displaying in the sidebar of the chat application
 export const getUsersForSidebar = async (req, res) => {

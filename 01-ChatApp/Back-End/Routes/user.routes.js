@@ -4,8 +4,8 @@ This includes fetching a list of users for the sidebar, which is only accessible
 */
 
 import express from "express"; // Import the express library to facilitate routing
-import protectRoute from "../Middleware/protectRoute.js"; // Middleware to ensure routes are protected and accessible only by authenticated users
-import { getUsersForSidebar } from "../Controllers/user.controller.js"; // Controller function to get user data for the sidebar
+import protectRoute from "../middleware/protectRoute.js"; // Middleware to ensure routes are protected and accessible only by authenticated users
+import { getUsersForSidebar } from "../controllers/user.controller.js"; // Controller function to get user data for the sidebar
 
 const router = express.Router(); // Initialize a new express router to define route endpoints
 

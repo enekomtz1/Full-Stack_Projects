@@ -3,7 +3,7 @@ Routing for authentication-related operations in the application.
 */
 
 import express from "express"; // Import the express library to use its routing functionality
-import { signup, login, logout } from "../Controllers/auth.controller.js"; // Import the authentication controller functions
+import { signup, login, logout } from "../controllers/auth.controller.js"; // Import the authentication controller functions
 
 const router = express.Router(); // Create a new router object to define route handlers
 
