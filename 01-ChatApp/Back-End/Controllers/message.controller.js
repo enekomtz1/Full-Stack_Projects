@@ -2,9 +2,9 @@
 // in the chat application. It supports sending messages between users and
 // retrieving the message history of a conversation.
 
-import Conversation from "../Models/conversation.model.js";
-import Message from "../Models/message.model.js";
-import { getReceiverSocketId, io } from "../Socket/socket.js";
+import Conversation from "../models/conversation.model.js";
+import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 // Function to send a message from one user to another
 export const sendMessage = async (req, res) => {

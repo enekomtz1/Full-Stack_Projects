@@ -5,13 +5,13 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 // Routes import
-import authRoutes from "./Routes/auth.routes.js";
-import messageRoutes from "./Routes/message.routes.js";
-import userRoutes from "./Routes/user.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import messageRoutes from "./routes/message.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 // DataBase import
 import connectToMongoDB from "./database/connectToMongoDB.js";
-import { app, server } from "./Socket/socket.js"; // Import express app and server from socket configuration
+import { app, server } from "./socket/socket.js"; // Import express app and server from socket configuration
 
 dotenv.config(); // Load environment variables from .env file into process.env
 

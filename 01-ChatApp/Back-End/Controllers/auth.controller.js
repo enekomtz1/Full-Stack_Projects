@@ -1,7 +1,7 @@
 // Importing necessary modules
 import bcrypt from "bcryptjs"; // Used for hashing passwords before storing them in the database
-import User from "../Models/user.model.js"; // The user model to interact with the user database collection
-import generateTokenAndSetCookie from "../Utils/generateToken.js"; // Utility function to generate JWT token and set it as a cookie
+import User from "../models/user.model.js"; // The user model to interact with the user database collection
+import generateTokenAndSetCookie from "../utils/generateToken.js"; // Utility function to generate JWT token and set it as a cookie
 
 // Signup function to register a new user
 export const signup = async (req, res) => {
