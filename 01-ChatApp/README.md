@@ -1,5 +1,5 @@
 
-# 01-chatapp
+# Chat App
 
 ![Chat App Banner](https://i.imgur.com/B6t5pNa.png)
 
@@ -16,7 +16,6 @@ A real-time chat application built using the MERN stack, Socket.io, TailwindCSS,
 - [Dependencies](#dependencies)
 - [Configuration](#configuration)
 - [Documentation](#documentation)
-- [Contributors](#contributors)
 - [License](#license)
 
 ## Installation
@@ -64,11 +63,11 @@ Access the live application here: [Chat App Live](https://zero1-chatapp.onrender
 ### Test Accounts
 You can log in to the application using the following test credentials to explore and test all functionalities:
 
-- Username: johndoe | Password: 123456
-- Username: michaeldoe | Password: 123456
-- Username: daisydoe | Password: 123456
-- Username: lucydoe | Password: 123456
-- Username: bobdoe | Password: 123456
+- **Username**: johndoe | **Password**: 123456
+- **Username**: michaeldoe | **Password**: 123456
+- **Username**: daisydoe | **Password**: 123456
+- **Username**: lucydoe | **Password**: 123456
+- **Username**: bobdoe | **Password**: 123456
 
 Feel free to interact with the application and check the conversations already in place among some of the participants to see the chat functionality in action.
 
@@ -112,10 +111,6 @@ For further documentation on each package used within the project, visit the fol
 - [Mongoose](https://mongoosejs.com/)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - [Zustand](https://github.com/pmndrs/zustand)
-
-## Contributors
-
-Feel free to contribute to the development of 01-chatapp. If interested, please see the instructions on how to do so in the CONTRIBUTING.md file.
 
 ## License
 
