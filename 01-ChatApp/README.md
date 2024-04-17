@@ -5,6 +5,8 @@
 
 A real-time chat application built using the MERN stack, Socket.io, TailwindCSS, and Daisy UI, providing features such as authentication and authorization with JWT, real-time messaging, online user status, and global state management with Zustand.
 
+[Visit Chat App](https://zero1-chatapp.onrender.com)
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -56,6 +58,19 @@ To run the Chat App:
   ```bash
   npm start
   ```
+
+Access the live application here: [Chat App Live](https://zero1-chatapp.onrender.com)
+
+### Test Accounts
+You can log in to the application using the following test credentials to explore and test all functionalities:
+
+- Username: johndoe | Password: 123456
+- Username: michaeldoe | Password: 123456
+- Username: daisydoe | Password: 123456
+- Username: lucydoe | Password: 123456
+- Username: bobdoe | Password: 123456
+
+Feel free to interact with the application and check the conversations already in place among some of the participants to see the chat functionality in action.
 
 ## Features
 
