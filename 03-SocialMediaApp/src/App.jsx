@@ -1,13 +1,12 @@
-
+import { Button } from "@chakra-ui/button";
+import { Container } from "@chakra-ui/react";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      hi
-    </>
-  )
+	return (
+		<Container>
+			<Button>Hello</Button>
+		</Container>
+	);
 }
 
-export default App
+export default App;

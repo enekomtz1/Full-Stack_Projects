@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { ChackraProvider } from "@chakra-ui/provider";
+import { mode } from "@chakra-ui/theme-tools";
+import { extendTheme } from "@chakra-ui/theme-utils";
+import { ColorModeScript } from "@chakra-ui/color-mode";
 
 const styles = {
 	global: (props) => ({
@@ -25,10 +28,15 @@ const colors = {
 	},
 };
 
+const theme = extendTheme({ config, styles, colors });
+
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<ChackraProvider>
-			<App />
-		</ChackraProvider>
+		<BrowserRouter>
+			<ChackraProvider theme={theme}>
+				<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+				<App />
+			</ChackraProvider>
+		</BrowserRouter>
 	</React.StrictMode>
 );
