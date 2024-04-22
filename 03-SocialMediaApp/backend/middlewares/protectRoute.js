@@ -1,6 +1,7 @@
 import User from "../models/userModel";
 import jwt from "jasonwebtoken";
 
+// If the user is not logged in or hasn't an account, he/she won't be able to access the app.
 const protectRoute = async (req, res, next) => {
 	try {
 		const token = req.cookies.jwt;
