@@ -25,9 +25,9 @@ const getUserProfile = async (req, res) => {
 		if (!user) {
 			return res.status(404).json({ error: "User not found." });
 		}
-	} catch (err) {
-		res.status(500).json({ error: err.message });
-		console.log("Error in getUserProfile ", err.message);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+		console.log("Error in getUserProfile ", error.message);
 	}
 };
 
@@ -66,6 +66,37 @@ const signupUser = async (req, res) => {
 		} else {
 			res.status(400).json({ error: "Invalid user data" });
 		}
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+		console.log("Error in signupUser ", error.message);
+	}
+};
+
+const loginUser = async (req, res) => {
+	try {
+		const { username, password } = req.body;
+		const user = await User.findOne({ username });
+		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+
+		if (!user || !isPasswordCorrect) {
+			return res.status(400).json({ error: "Invalid username or password" });
+		}
+
+		if (user.isFrozen) {
+			user.isFrozen = false;
+			await user.save();
+		}
+
+		generateTokenAndSetCookie(user._id, res);
+
+		res.status(200).json({
+			_id: user._id,
+			name: user.name,
+			email: user.email,
+			username: user.username,
+			bio: user.bio,
+			profilePic: user.profilePic,
+		});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 		console.log("Error in signupUser ", err.message);
