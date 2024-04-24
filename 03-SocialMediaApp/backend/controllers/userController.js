@@ -6,43 +6,58 @@ import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 
 const getUserProfile = async (req, res) => {
-	// We will fetch user profile either with username or userId
-	// query is either username or userId
+	// Extract 'query' parameter from URL which could be either a username or a userId
 	const { query } = req.params;
 
 	try {
 		let user;
 
-		// query is userId
+		// Check if the 'query' parameter is a valid MongoDB ObjectId
 		if (mongoose.Types.ObjectId.isValid(query)) {
-			user = await User.findOne({ _id: query }).select("-password").select("-updatedAt");
-		}
-		// query is username
-		else {
-			user = await User.findOne({ username: query }).select("-password").select("-updatedAt");
+			// If 'query' is a valid ObjectId, assume it's a userId and try to find the user by _id
+			user = await User.findOne({ _id: query })
+				.select("-password") // Exclude password from the results for security
+				.select("-updatedAt"); // Exclude updatedAt field for privacy
+		} else {
+			// If 'query' is not a valid ObjectId, assume it's a username and try to find the user by username
+			user = await User.findOne({ username: query })
+				.select("-password") // Exclude password from the results
+				.select("-updatedAt"); // Exclude updatedAt field
 		}
 
-		if (!user) {
-			return res.status(404).json({ error: "User not found." });
-		}
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-		console.log("Error in getUserProfile ", error.message);
+		// If no user is found, return a 404 Not Found status with an error message
+		if (!user) return res.status(404).json({ error: "User not found" });
+
+		// If a user is found, return the user data with a 200 OK status
+		res.status(200).json(user);
+	} catch (err) {
+		// Handle any errors during the process and return a 500 Internal Server Error status
+		res.status(500).json({ error: err.message });
+		// Optionally log the error for debugging purposes
+		console.log("Error in getUserProfile: ", err.message);
 	}
 };
 
 const signupUser = async (req, res) => {
 	try {
+		// Extract user information from the request body
 		const { name, email, username, password } = req.body;
+
+		// Check if a user with the same email or username already exists
 		const user = await User.findOne({ $or: [{ email }, { username }] });
 
+		// If a user is found, return an error response indicating the user already exists
 		if (user) {
 			return res.status(400).json({ error: "User already exists" });
 		}
 
+		// Generate a salt for hashing the password using bcrypt with a cost factor of 10
 		const salt = await bcrypt.genSalt(10);
+
+		// Create a hashed version of the password
 		const hashedPassword = await bcrypt.hash(password, salt);
 
+		// Create a new user instance with the provided data and hashed password
 		const newUser = new User({
 			name,
 			email,
@@ -50,11 +65,15 @@ const signupUser = async (req, res) => {
 			password: hashedPassword,
 		});
 
+		// Save the new user to the database
 		await newUser.save();
 
+		// If the new user is successfully created
 		if (newUser) {
+			// Optionally generate a token and set a cookie for session management
 			generateTokenAndSetCookie(newUser._id, res);
 
+			// Return the new user's data with a 201 Created status
 			res.status(201).json({
 				_id: newUser._id,
 				name: newUser.name,
@@ -64,31 +83,43 @@ const signupUser = async (req, res) => {
 				profilePic: newUser.profilePic,
 			});
 		} else {
+			// If there is an issue with the user data, return a 400 Bad Request error
 			res.status(400).json({ error: "Invalid user data" });
 		}
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-		console.log("Error in signupUser ", error.message);
+	} catch (err) {
+		// Handle any errors that occur during the process with a 500 Internal Server Error
+		res.status(500).json({ error: err.message });
+		// Optionally log the error for further investigation
+		console.log("Error in signupUser: ", err.message);
 	}
 };
 
 const loginUser = async (req, res) => {
 	try {
+		// Extract username and password from request body
 		const { username, password } = req.body;
+
+		// Attempt to find a user in the database with the provided username
 		const user = await User.findOne({ username });
+
+		// Check if the provided password matches the stored hash using bcrypt
 		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
 
+		// If no user is found or the password is incorrect, return an error
 		if (!user || !isPasswordCorrect) {
 			return res.status(400).json({ error: "Invalid username or password" });
 		}
 
+		// If the user account is marked as frozen, unfreeze it
 		if (user.isFrozen) {
 			user.isFrozen = false;
-			await user.save();
+			await user.save(); // Save the updated user information
 		}
 
+		// Generate a session token for the user and set it in a cookie
 		generateTokenAndSetCookie(user._id, res);
 
+		// Respond with user details excluding sensitive information
 		res.status(200).json({
 			_id: user._id,
 			name: user.name,
@@ -97,94 +128,118 @@ const loginUser = async (req, res) => {
 			bio: user.bio,
 			profilePic: user.profilePic,
 		});
-	} catch (err) {
-		res.status(500).json({ error: err.message });
-		console.log("Error in signupUser ", err.message);
+	} catch (error) {
+		// Handle any errors during the process and respond with a 500 Internal Server Error
+		res.status(500).json({ error: error.message });
+		// Optionally log the error for further investigation
+		console.log("Error in loginUser: ", error.message);
 	}
 };
 
 const logoutUser = (req, res) => {
 	try {
+		// Set the 'jwt' cookie to an empty string and expire it immediately
 		res.cookie("jwt", "", { maxAge: 1 });
+
+		// Send a successful logout response
 		res.status(200).json({ message: "User logged out successfully" });
 	} catch (err) {
+		// Handle any errors that occur during the logout process
 		res.status(500).json({ error: err.message });
-		console.log("Error in signupUser: ", err.message);
+
+		// Optionally log the error for debugging purposes
+		console.log("Error in logoutUser: ", err.message);
 	}
 };
 
-const followUnfollowUser = async (req, res) => {
+const followUnFollowUser = async (req, res) => {
 	try {
+		// Extract the ID of the user to be followed or unfollowed from URL parameters
 		const { id } = req.params;
+
+		// Fetch the user to modify and the current logged-in user from the database
 		const userToModify = await User.findById(id);
 		const currentUser = await User.findById(req.user._id);
 
-		if (id === currentUser.toString()) {
-			return res.status(400).json({ error: "You can't follow/unfollow yourserlf." });
+		// Prevent users from following or unfollowing themselves
+		if (id === req.user._id.toString()) {
+			return res.status(400).json({ error: "You cannot follow/unfollow yourself" });
 		}
 
+		// Ensure both the target user and the current user exist in the database
+		if (!userToModify || !currentUser) {
+			return res.status(400).json({ error: "User not found" });
+		}
+
+		// Check if the current user is already following the target user
 		const isFollowing = currentUser.following.includes(id);
 
-		// Unfollow if the user is already following:
 		if (isFollowing) {
+			// If currently following, unfollow the user
 			await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
-			await User.findByIdAndUpdate(req.user._id, { $pull: { followers: id } });
-
+			await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
 			res.status(200).json({ message: "User unfollowed successfully" });
-		}
-		// Follow if the user is not following:
-		else {
+		} else {
+			// If not following, follow the user
 			await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
-			await User.findByIdAndUpdate(req.user._id, { $push: { followers: id } });
-
+			await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
 			res.status(200).json({ message: "User followed successfully" });
 		}
 	} catch (err) {
+		// Handle any errors that occur during the process
 		res.status(500).json({ error: err.message });
+		// Log the error for debugging purposes
 		console.log("Error in followUnFollowUser: ", err.message);
 	}
 };
 
 const updateUser = async (req, res) => {
+	// Extract user-provided details from the request body
 	const { name, email, username, password, bio } = req.body;
 	let { profilePic } = req.body;
 
+	// Retrieve the user ID of the currently logged-in user
 	const userId = req.user._id;
 
 	try {
+		// Find the current user in the database using their user ID
 		let user = await User.findById(userId);
-		if (!user) {
-			return res.status(400).json({ error: "User not found" });
-		}
 
-		if (req.params.id !== userId.toString()) {
-			return res.status(400).json({ error: "You can't update other user's profile" });
-		}
+		// If the user does not exist, return a 400 Bad Request error
+		if (!user) return res.status(400).json({ error: "User not found" });
 
+		// Check if the user is trying to update another user's profile
+		if (req.params.id !== userId.toString()) return res.status(400).json({ error: "You cannot update other user's profile" });
+
+		// If a new password is provided, hash it before storing
 		if (password) {
 			const salt = await bcrypt.genSalt(10);
 			const hashedPassword = await bcrypt.hash(password, salt);
 			user.password = hashedPassword;
 		}
 
-		// Update the new pic on cloudinary if profilePic exists:
+		// If a new profile picture is provided, handle the image upload and deletion of the old image
 		if (profilePic) {
-			await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
-		} else {
+			if (user.profilePic) {
+				// Delete the old profile picture from Cloudinary
+				await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
+			}
+			// Upload the new profile picture to Cloudinary and get the secure URL
 			const uploadedResponse = await cloudinary.uploader.upload(profilePic);
 			profilePic = uploadedResponse.secure_url;
 		}
 
+		// Update user details, using provided values or defaulting to existing values if not provided
 		user.name = name || user.name;
 		user.email = email || user.email;
 		user.username = username || user.username;
 		user.profilePic = profilePic || user.profilePic;
 		user.bio = bio || user.bio;
 
-		// Update all changes that the user has done to the profile:
+		// Save the updated user data to the database
 		user = await user.save();
 
-		// Find all posts that this user replied and update username and userProfilePic fields:
+		// Additionally, update the user's information in related posts where they have replied
 		await Post.updateMany(
 			{ "replies.userId": userId },
 			{
@@ -196,12 +251,16 @@ const updateUser = async (req, res) => {
 			{ arrayFilters: [{ "reply.userId": userId }] }
 		);
 
-		// password should be null in response
+		// Ensure the password is not included in the response for security reasons
 		user.password = null;
 
+		// Send back the updated user data with a 200 OK status
 		res.status(200).json(user);
 	} catch (err) {
+		// Handle any errors that occur during the process with a 500 Internal Server Error
 		res.status(500).json({ error: err.message });
+
+		// Optionally log the error for debugging purposes
 		console.log("Error in updateUser: ", err.message);
 	}
 };
@@ -244,26 +303,28 @@ const getSuggestedUsers = async (req, res) => {
 };
 
 const freezeAccount = async (req, res) => {
-    try {
-        // Fetch the user document from the database based on the ID of the current logged-in user
-        const user = await User.findById(req.user._id);
+	try {
+		// Fetch the user document from the database based on the ID of the current logged-in user
+		const user = await User.findById(req.user._id);
 
-        // Check if the user was not found in the database
-        if (!user) {
-            // Return a 400 Bad Request response with an error message
-            return res.status(400).json({ error: "User not found" });
-        }
+		// Check if the user was not found in the database
+		if (!user) {
+			// Return a 400 Bad Request response with an error message
+			return res.status(400).json({ error: "User not found" });
+		}
 
-        // Set the isFrozen property of the user document to true, indicating the account is frozen
-        user.isFrozen = true;
+		// Set the isFrozen property of the user document to true, indicating the account is frozen
+		user.isFrozen = true;
 
-        // Save the updated user document to the database
-        await user.save();
+		// Save the updated user document to the database
+		await user.save();
 
-        // Return a 200 OK response indicating the account was successfully frozen
-        res.status(200).json({ success: true });
-    } catch (error) {
-        // Catch any errors that occur during the process and return a 500 Internal Server Error response
-        res.status(500).json({ error: error.message });
-    }
+		// Return a 200 OK response indicating the account was successfully frozen
+		res.status(200).json({ success: true });
+	} catch (error) {
+		// Catch any errors that occur during the process and return a 500 Internal Server Error response
+		res.status(500).json({ error: error.message });
+	}
 };
+
+export { signupUser, loginUser, logoutUser, followUnFollowUser, updateUser, getUserProfile, getSuggestedUsers, freezeAccount };
