@@ -205,3 +205,40 @@ const updateUser = async (req, res) => {
 		console.log("Error in updateUser: ", err.message);
 	}
 };
+
+const getSuggestedUsers = async (req, res) => {
+	try {
+		// Retrieve the ID of the current user from the request object
+		const userId = req.user._id;
+
+		// Fetch the list of user IDs that the current user is already following
+		const usersFollowedByYou = await User.findById(userId).select("following");
+
+		// Perform an aggregation to find users excluding the current user and randomly sample 10 of them
+		const users = await User.aggregate([
+			{
+				$match: {
+					_id: { $ne: userId }, // Exclude the current user's ID from the results
+				},
+			},
+			{
+				$sample: { size: 10 }, // Randomly select 10 users from those that are not the current user
+			},
+		]);
+
+		// Filter out the users that the current user is already following from the sampled list
+		const filteredUsers = users.filter((user) => !usersFollowedByYou.following.includes(user._id));
+
+		// Limit the suggested users to the top 4 for simplicity and focus
+		const suggestedUsers = filteredUsers.slice(0, 4);
+
+		// Set the password property to null to prevent it from being sent back in the response for security reasons
+		suggestedUsers.forEach((user) => (user.password = null));
+
+		// Send the list of suggested users back to the client with a 200 OK status
+		res.status(200).json(suggestedUsers);
+	} catch (error) {
+		// Handle any errors that might occur during the process by sending a 500 Internal Server Error status
+		res.status(500).json({ error: error.message });
+	}
+};
