@@ -32,7 +32,6 @@ const createPost = async (req, res) => {
 
 		// Define maximum allowed length for text
 		const maxLength = 500;
-
 		if (text.length > maxLength) {
 			// Return error if text exceeds maximum length
 			return res.status(400).json({ error: `Text must be less than ${maxLength} characters` });
