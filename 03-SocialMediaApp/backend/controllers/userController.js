@@ -242,3 +242,28 @@ const getSuggestedUsers = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
+const freezeAccount = async (req, res) => {
+    try {
+        // Fetch the user document from the database based on the ID of the current logged-in user
+        const user = await User.findById(req.user._id);
+
+        // Check if the user was not found in the database
+        if (!user) {
+            // Return a 400 Bad Request response with an error message
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        // Set the isFrozen property of the user document to true, indicating the account is frozen
+        user.isFrozen = true;
+
+        // Save the updated user document to the database
+        await user.save();
+
+        // Return a 200 OK response indicating the account was successfully frozen
+        res.status(200).json({ success: true });
+    } catch (error) {
+        // Catch any errors that occur during the process and return a 500 Internal Server Error response
+        res.status(500).json({ error: error.message });
+    }
+};
