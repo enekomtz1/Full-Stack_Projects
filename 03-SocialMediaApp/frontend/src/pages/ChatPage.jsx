@@ -67,4 +67,102 @@ const ChatComponent = () => {
 		});
 		// Specify dependencies for this effect: it reruns when socket or setConversations changes
 	}, [socket, setConversations]);
+
+	// This useEffect hook is used for fetching conversation data asynchronously when the component mounts or when specified dependencies change.
+	useEffect(() => {
+		// Define an asynchronous function to fetch conversations.
+		const getConversations = async () => {
+			try {
+				// Attempt to fetch conversations from the server.
+				const res = await fetch("/api/messages/conversations");
+				// Parse the JSON response.
+				const data = await res.json();
+				// Check for errors in the response and display an error message if present.
+				if (data.error) {
+					showToast("Error", data.error, "error");
+					return;
+				}
+				// Log the received data for debugging purposes.
+				console.log(data);
+				// Update the component's state with the fetched conversations.
+				setConversations(data);
+			} catch (error) {
+				// Handle any errors during the fetch operation.
+				showToast("Error", error.message, "error");
+			} finally {
+				// Ensure that the loading state is updated regardless of the result.
+				setLoadingConversations(false);
+			}
+		};
+
+		// Execute the function to fetch conversations.
+		getConversations();
+	}, [showToast, setConversations]); // Dependencies for useEffect to control re-execution.
+
+	const handleConversationSearch = async (e) => {
+		// Prevent default form submission behavior
+		e.preventDefault();
+
+		// Set the searching state to true
+		setSearchingUser(true);
+
+		try {
+			// Fetch the user profile based on the searchText
+			const res = await fetch(`/api/users/profile/${searchText}`);
+			const searchedUser = await res.json();
+
+			// Check if the API returned an error
+			if (searchedUser.error) {
+				showToast("Error", searchedUser.error, "error");
+				return;
+			}
+
+			// Check if the current user is trying to message themselves
+			const messagingYourself = searchedUser._id === currentUser._id;
+			if (messagingYourself) {
+				showToast("Error", "You cannot message yourself", "error");
+				return;
+			}
+
+			// Check if there is already an existing conversation with this user
+			const conversationAlreadyExists = conversations.find((conversation) => conversation.participants[0]._id === searchedUser._id);
+
+			// If the conversation exists, select it
+			if (conversationAlreadyExists) {
+				setSelectedConversation({
+					_id: conversationAlreadyExists._id,
+					userId: searchedUser._id,
+					username: searchedUser.username,
+					userProfilePic: searchedUser.profilePic,
+				});
+				return;
+			}
+
+			// Create a mock conversation object
+			const mockConversation = {
+				mock: true,
+				lastMessage: {
+					text: "",
+					sender: "",
+				},
+				_id: Date.now(),
+				participants: [
+					{
+						_id: searchedUser._id,
+						username: searchedUser.username,
+						profilePic: searchedUser.profilePic,
+					},
+				],
+			};
+
+			// Update the conversations state with the new mock conversation
+			setConversations((prevConvs) => [...prevConvs, mockConversation]);
+		} catch (error) {
+			// Show an error message if there was a problem during the fetch
+			showToast("Error", error.message, "error");
+		} finally {
+			// Set the searching state to false once the operation is complete
+			setSearchingUser(false);
+		}
+	};
 };
