@@ -165,4 +165,64 @@ const ChatComponent = () => {
 			setSearchingUser(false);
 		}
 	};
+
+	{
+		/* Define the Box component with specific styling for different breakpoints and absolute positioning*/
+	}
+	<Box position={"absolute"} left={"50%"} w={{ base: "100%", md: "80%", lg: "750px" }} p={4} transform={"translateX(-50%)"}>
+		{/* Flex container to layout the inner components with spacing and responsive flexDirection*/}
+		<Flex
+			gap={4}
+			flexDirection={{ base: "column", md: "row" }}
+			maxW={{
+				sm: "400px",
+				md: "full",
+			}}
+			mx={"auto"}
+		>
+			{/* Inner Flex for managing the conversation list*/}
+			<Flex flex={30} gap={2} flexDirection={"column"} maxW={{ sm: "250px", md: "full" }} mx={"auto"}>
+				{/* Display the title of the conversation section with dynamic color based on theme*/}
+				<Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}>
+					Your Conversations
+				</Text>
+				{/* Form for submitting a conversation search*/}
+				<form onSubmit={handleConversationSearch}>
+					{/* Input field and search button with a flexible layout*/}
+					<Flex alignItems={"center"} gap={2}>
+						<Input placeholder="Search for a user" onChange={(e) => setSearchText(e.target.value)} />
+						<Button size={"sm"} onClick={handleConversationSearch} isLoading={searchingUser}>
+							<SearchIcon />
+						</Button>
+					</Flex>
+				</form>
+				{/* Display skeleton loaders while conversations are loading*/}
+				{loadingConversations &&
+					[0, 1, 2, 3, 4].map((_, i) => (
+						<Flex key={i} gap={4} alignItems={"center"} p={"1"} borderRadius={"md"}>
+							<Box>
+								<SkeletonCircle size={"10"} />
+							</Box>
+							<Flex w={"full"} flexDirection={"column"} gap={3}>
+								<Skeleton h={"10px"} w={"80px"} />
+								<Skeleton h={"8px"} w={"90%"} />
+							</Flex>
+						</Flex>
+					))}
+				{/*List conversations if not loading*/}
+				{!loadingConversations &&
+					conversations.map((conversation) => <Conversation key={conversation._id} isOnline={onlineUsers.includes(conversation.participants[0]._id)} conversation={conversation} />)}
+			</Flex>
+			{/* Display a message or the message container based on the selected conversation*/}
+			{!selectedConversation._id && (
+				<Flex flex={70} borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
+					<GiConversation size={100} />
+					<Text fontSize={20}>Select a conversation to start messaging</Text>
+				</Flex>
+			)}
+			{selectedConversation._id && <MessageContainer />}
+		</Flex>
+	</Box>;
 };
+
+export default ChatPage;
