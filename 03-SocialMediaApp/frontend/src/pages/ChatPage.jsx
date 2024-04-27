@@ -7,19 +7,35 @@
 - Implements error handling and user feedback through toasts.
 */
 
-import React, { useState, useEffect } from 'react';
-import { Box, Input, Button, useToast } from '@chakra-ui/react';
-import { useRecoilState } from 'recoil';
-import { conversationsState } from './state';
-import { fetchConversations, sendMessage } from './api';
-import { useWebSocket } from './hooks';
+import React, { useState, useEffect } from "react";
+import { Box, Input, Button, useToast } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { conversationsState } from "./state";
+import { fetchConversations, sendMessage } from "./api";
+import { useWebSocket } from "./hooks";
 
 const ChatComponent = () => {
-  // Local state for the current message input
-  const [message, setMessage] = useState('');
-  // Recoil state for managing conversations globally
-  const [conversations, setConversations] = useRecoilState(conversationsState);
-  // Chakra UI toast for showing notifications
-  const toast = useToast();
+	// State to track if the user search is active
+	const [searchingUser, setSearchingUser] = useState(false);
 
-}
+	// State to track if conversations are currently loading
+	const [loadingConversations, setLoadingConversations] = useState(true);
+
+	// State to manage the search text input
+	const [searchText, setSearchText] = useState("");
+
+	// Recoil state for managing the currently selected conversation
+	const [selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom);
+
+	// Recoil state for managing the list of conversations
+	const [conversations, setConversations] = useRecoilState(conversationsAtom);
+
+	// Retrieve the current user details from Recoil
+	const currentUser = useRecoilValue(userAtom);
+
+	// Custom hook for showing toast notifications
+	const showToast = useShowToast();
+
+	// Custom hook to retrieve socket instance and list of online users
+	const { socket, onlineUsers } = useSocket();
+};
