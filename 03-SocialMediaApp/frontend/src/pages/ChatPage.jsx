@@ -38,4 +38,33 @@ const ChatComponent = () => {
 
 	// Custom hook to retrieve socket instance and list of online users
 	const { socket, onlineUsers } = useSocket();
+
+	// This useEffect hook is used for setting up a socket listener
+	useEffect(() => {
+		// Check if socket exists and then set up a listener for "messagesSeen" events
+		socket?.on("messagesSeen", ({ conversationId }) => {
+			// The listener updates the state of conversations when a message is seen
+			setConversations((prev) => {
+				// Map through previous conversations to find and update the relevant one
+				const updatedConversations = prev.map((conversation) => {
+					// Check if current conversation is the one that should be updated
+					if (conversation._id === conversationId) {
+						// Return a new conversation object with the last message marked as seen
+						return {
+							...conversation,
+							lastMessage: {
+								...conversation.lastMessage,
+								seen: true,
+							},
+						};
+					}
+					// Return the conversation unchanged if it is not the one updated
+					return conversation;
+				});
+				// Return the new array of conversations with the updated one
+				return updatedConversations;
+			});
+		});
+		// Specify dependencies for this effect: it reruns when socket or setConversations changes
+	}, [socket, setConversations]);
 };
