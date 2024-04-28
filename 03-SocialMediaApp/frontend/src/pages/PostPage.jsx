@@ -121,20 +121,30 @@ const PostPage = () => {
 	return (
 		<>
 			<Flex>
+				{/* Main container for user profile and actions */}
 				<Flex w={"full"} alignItems={"center"} gap={3}>
+					{/* Avatar with user's profile picture */}
 					<Avatar src={user.profilePic} size={"md"} name="Mark Zuckerberg" />
+
+					{/* Container for username and verified badge */}
 					<Flex>
+						{/* Display username with bold styling */}
 						<Text fontSize={"sm"} fontWeight={"bold"}>
 							{user.username}
 						</Text>
+						{/* Verified badge image */}
 						<Image src="/verified.png" w="4" h={4} ml={4} />
 					</Flex>
 				</Flex>
+
+				{/* Container for time since post and delete option */}
 				<Flex gap={4} alignItems={"center"}>
+					{/* Display time since post was created */}
 					<Text fontSize={"xs"} width={36} textAlign={"right"} color={"gray.light"}>
 						{formatDistanceToNow(new Date(currentPost.createdAt))} ago
 					</Text>
 
+					{/* Delete icon shows only if current user is the post creator */}
 					{currentUser?._id === user._id && <DeleteIcon size={20} cursor={"pointer"} onClick={handleDeletePost} />}
 				</Flex>
 			</Flex>
