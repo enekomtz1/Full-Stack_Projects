@@ -119,50 +119,55 @@ const PostPage = () => {
 	console.log("currentPost", currentPost);
 
 	return (
+		// Fragment to group multiple elements without adding extra nodes to the DOM
 		<>
+			{/* Main container for the post's user information and actions */}
 			<Flex>
-				{/* Main container for user profile and actions */}
+				{/* Nested Flex container for user avatar, name, and verification status */}
 				<Flex w={"full"} alignItems={"center"} gap={3}>
-					{/* Avatar with user's profile picture */}
+					{/* User avatar with dynamic source and default name */}
 					<Avatar src={user.profilePic} size={"md"} name="Mark Zuckerberg" />
-
-					{/* Container for username and verified badge */}
+					{/* Container for username and verification icon */}
 					<Flex>
-						{/* Display username with bold styling */}
+						{/* Username displayed in bold */}
 						<Text fontSize={"sm"} fontWeight={"bold"}>
 							{user.username}
 						</Text>
-						{/* Verified badge image */}
+						{/* Verified user icon */}
 						<Image src="/verified.png" w="4" h={4} ml={4} />
 					</Flex>
 				</Flex>
-
-				{/* Container for time since post and delete option */}
+				{/* Container for post time and delete option */}
 				<Flex gap={4} alignItems={"center"}>
-					{/* Display time since post was created */}
+					{/* Timestamp showing how long ago the post was created */}
 					<Text fontSize={"xs"} width={36} textAlign={"right"} color={"gray.light"}>
 						{formatDistanceToNow(new Date(currentPost.createdAt))} ago
 					</Text>
 
-					{/* Delete icon shows only if current user is the post creator */}
+					{/* Conditional rendering of the delete icon if the current user is the post author */}
 					{currentUser?._id === user._id && <DeleteIcon size={20} cursor={"pointer"} onClick={handleDeletePost} />}
 				</Flex>
 			</Flex>
 
+			{/* Text content of the post */}
 			<Text my={3}>{currentPost.text}</Text>
 
+			{/* Conditional rendering of the post image if present */}
 			{currentPost.img && (
 				<Box borderRadius={6} overflow={"hidden"} border={"1px solid"} borderColor={"gray.light"}>
 					<Image src={currentPost.img} w={"full"} />
 				</Box>
 			)}
 
+			{/* Action buttons related to the post */}
 			<Flex gap={3} my={3}>
 				<Actions post={currentPost} />
 			</Flex>
 
+			{/* Visual divider for thematic break */}
 			<Divider my={4} />
 
+			{/* Promotional message and button to encourage app download */}
 			<Flex justifyContent={"space-between"}>
 				<Flex gap={2} alignItems={"center"}>
 					<Text fontSize={"2xl"}>👋</Text>
@@ -171,7 +176,10 @@ const PostPage = () => {
 				<Button>Get</Button>
 			</Flex>
 
+			{/* Another visual divider */}
 			<Divider my={4} />
+
+			{/* Loop over the post replies to render each comment */}
 			{currentPost.replies.map((reply) => (
 				<Comment key={reply._id} reply={reply} lastReply={reply._id === currentPost.replies[currentPost.replies.length - 1]._id} />
 			))}
