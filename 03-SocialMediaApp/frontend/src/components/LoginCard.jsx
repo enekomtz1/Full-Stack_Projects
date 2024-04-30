@@ -73,12 +73,16 @@ export default function LoginCard() {
 	// Render the login UI.
 	return (
 		<Flex align={"center"} justify={"center"}>
+			{/* Stack container for vertical spacing and center alignment */}
 			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+				{/* Heading section with a centered heading for the Login */}
 				<Stack align={"center"}>
 					<Heading fontSize={"4xl"} textAlign={"center"}>
 						Login
 					</Heading>
 				</Stack>
+
+				{/* Login box with conditional background color and shadow based on the theme */}
 				<Box
 					rounded={"lg"}
 					bg={useColorModeValue("white", "gray.dark")}
@@ -89,22 +93,30 @@ export default function LoginCard() {
 						sm: "400px",
 					}}
 				>
+					{/* Stack for form controls with spacing */}
 					<Stack spacing={4}>
+						{/* Form control for username input */}
 						<FormControl isRequired>
 							<FormLabel>Username</FormLabel>
 							<Input type="text" value={inputs.username} onChange={(e) => setInputs((inputs) => ({ ...inputs, username: e.target.value }))} />
 						</FormControl>
+
+						{/* Form control for password input */}
 						<FormControl isRequired>
 							<FormLabel>Password</FormLabel>
 							<InputGroup>
 								<Input type={showPassword ? "text" : "password"} value={inputs.password} onChange={(e) => setInputs((inputs) => ({ ...inputs, password: e.target.value }))} />
+
+								{/* Button to toggle password visibility */}
 								<InputRightElement h={"full"}>
-									<Button variant={"ghost"} onClick={() => setShowPassword((showPassword) => !showPassword)}>
+									<Button variant={"ghost"} onClick={() => setShowPassword((showPassword) => !showShowPassword)}>
 										{showPassword ? <ViewIcon /> : <ViewOffIcon />}
 									</Button>
 								</InputRightElement>
 							</InputGroup>
 						</FormControl>
+
+						{/* Button stack with top padding */}
 						<Stack spacing={10} pt={2}>
 							<Button
 								loadingText="Logging in"
@@ -120,6 +132,8 @@ export default function LoginCard() {
 								Login
 							</Button>
 						</Stack>
+
+						{/* Link to switch to the signup screen */}
 						<Stack pt={6}>
 							<Text align={"center"}>
 								Don't have an account?{" "}
