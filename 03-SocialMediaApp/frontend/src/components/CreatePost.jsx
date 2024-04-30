@@ -167,6 +167,7 @@ const CreatePost = () => {
 						<FormControl>
 							{/* Textarea for post content input */}
 							<Textarea placeholder="Post content goes here.." onChange={handleTextChange} value={postText} />
+
 							{/* Text showing remaining characters */}
 							<Text fontSize="xs" fontWeight="bold" textAlign={"right"} m={"1"} color={"gray.800"}>
 								{remainingChar}/{MAX_CHAR}
