@@ -84,15 +84,23 @@ npm start
 After starting the app, you can access it by navigating to `http://localhost:{PORT}` in your web browser. Ensure your MongoDB and any other service configurations are correctly set up.
 
 ## Documentation
+For detailed documentation on the various technologies and frameworks utilized in the Threads App, refer to the following resources:
 
-For further documentation on the usage of each feature, refer to the video tutorial linked on YouTube or visit the official documentation website (not provided here).
+- **MERN (MongoDB, Express.js, React.js, Node.js)**:
+  - **MongoDB**: [MongoDB Documentation](https://docs.mongodb.com)
+  - **Express.js**: [Express Documentation](https://expressjs.com)
+  - **React.js**: [React Documentation](https://reactjs.org/docs/getting-started.html)
+  - **Node.js**: [Node.js Documentation](https://nodejs.org/en/docs/)
+
+- **Socket.io**:
+  - Comprehensive documentation for real-time communication can be found at [Socket.io Documentation](https://socket.io/docs/).
+
+- **Chakra UI**:
+  - For styling and responsive design guidelines, refer to the [Chakra UI Documentation](https://chakra-ui.com/docs/getting-started).
 
 ## Contributors
-
--   [Your Name or Your Team]
+- [enekomtz1](https://github.com/enekomtz1)
 
 ## License
 
-Specify the license under which this app is released (not provided here).
-
-This README offers a comprehensive guide to getting started with the Threads App, detailing every step to ensure a successful setup and deployment.
+This project is licensed under the [ISC License](https://opensource.org/license/isc-license-txt).
