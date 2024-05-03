@@ -1,4 +1,4 @@
-# Threads App README
+# Threads App with Real-Time Chat Functionality
 
 ![Threads App Banner](https://i.imgur.com/ZE7D1XY.png)
 
