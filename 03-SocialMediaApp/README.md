@@ -1,6 +1,6 @@
 # Threads App README
 
-![Threads App Banner](https://i.imgur.com/B6t5pNa.png)
+![Threads App Banner](https://i.imgur.com/ZE7D1XY.png)
 
 ## Table of Contents
 
