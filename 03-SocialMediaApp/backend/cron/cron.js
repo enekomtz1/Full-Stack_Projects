@@ -1,3 +1,11 @@
+/*
+- This code initializes a cron job that periodically sends an HTTPS GET request to a specified URL.
+- It leverages the 'cron' module to schedule the execution every 14 minutes.
+- The 'https' module is used to perform the GET request to a web service.
+- Successful requests log a success message, while failures log the error and status code.
+- The cron job is exportable, allowing it to be included and controlled from other parts of the application.
+*/
+
 // Import the 'cron' module to schedule tasks and the 'https' module to perform HTTPS requests
 import cron from "cron";
 import https from "https";
