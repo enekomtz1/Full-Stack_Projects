@@ -1,5 +1,16 @@
+/*
+- This code implements a middleware function for Express.js to protect routes.
+- It checks for a JSON Web Token (JWT) in the request cookies to authenticate users.
+- Unauthorized access is prevented if no valid JWT is found.
+- Upon successful verification of the JWT, the corresponding user details are fetched from the database.
+- The user's information, excluding their password, is attached to the request object for use in subsequent middleware or routes.
+*/
+
+// Import the User model to interact with the MongoDB users collection
 import User from "../models/userModel";
-import jwt from "jasonwebtoken";
+
+// Import JSON Web Token to handle JWT operations
+import jwt from "jsonwebtoken";
 
 // If the user is not logged in or hasn't an account, he/she won't be able to access the app.
 // Middleware to protect routes and ensure user is authenticated
