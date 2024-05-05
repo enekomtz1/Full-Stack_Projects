@@ -1,3 +1,12 @@
+/*
+- This code implements several user-related operations for a web application.
+- It handles user authentication, profile management, and social features.
+- User data is securely managed using MongoDB and bcrypt for password hashing.
+- Cloudinary is used for image storage, enhancing file management.
+- The code is structured for clarity, with each function performing a distinct operation.
+*/
+
+// Import necessary modules and dependencies
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
 import bcrypt from "bcryptjs";
@@ -5,6 +14,7 @@ import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCooki
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 
+// Function to retrieve a user's profile based on a username or userID
 const getUserProfile = async (req, res) => {
 	// Extract 'query' parameter from URL which could be either a username or a userId
 	const { query } = req.params;
@@ -38,6 +48,7 @@ const getUserProfile = async (req, res) => {
 	}
 };
 
+// Function to sign up a new user
 const signupUser = async (req, res) => {
 	try {
 		// Extract user information from the request body
@@ -94,6 +105,7 @@ const signupUser = async (req, res) => {
 	}
 };
 
+// Function to log in a user
 const loginUser = async (req, res) => {
 	try {
 		// Extract username and password from request body
@@ -136,6 +148,7 @@ const loginUser = async (req, res) => {
 	}
 };
 
+// Function to log out a user
 const logoutUser = (req, res) => {
 	try {
 		// Set the 'jwt' cookie to an empty string and expire it immediately
@@ -152,6 +165,7 @@ const logoutUser = (req, res) => {
 	}
 };
 
+// Function to follow/unfollow a user
 const followUnFollowUser = async (req, res) => {
 	try {
 		// Extract the ID of the user to be followed or unfollowed from URL parameters
@@ -193,6 +207,7 @@ const followUnFollowUser = async (req, res) => {
 	}
 };
 
+// Function to update user information
 const updateUser = async (req, res) => {
 	// Extract user-provided details from the request body
 	const { name, email, username, password, bio } = req.body;
@@ -265,6 +280,7 @@ const updateUser = async (req, res) => {
 	}
 };
 
+// Function to suggest new users to follow
 const getSuggestedUsers = async (req, res) => {
 	try {
 		// Retrieve the ID of the current user from the request object
@@ -302,6 +318,7 @@ const getSuggestedUsers = async (req, res) => {
 	}
 };
 
+// Function to freeze a user account
 const freezeAccount = async (req, res) => {
 	try {
 		// Fetch the user document from the database based on the ID of the current logged-in user
