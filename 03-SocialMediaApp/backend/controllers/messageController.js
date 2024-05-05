@@ -1,3 +1,11 @@
+/*
+- This code provides backend functionality for messaging in a web application.
+- It includes functions to send messages, retrieve messages, and list conversations.
+- Real-time messaging is enabled via socket.io.
+- Messages can include text and optionally an image, which is uploaded to Cloudinary.
+- Error handling is incorporated to manage and respond to exceptions effectively.
+*/
+
 import Conversation from "../models/conversationModel.js";
 import Message from "../models/messageModel.js";
 import { getRecipientSocketId, io } from "../socket/socket.js";
@@ -71,60 +79,58 @@ async function sendMessage(req, res) {
 }
 
 async function getMessages(req, res) {
-    // Extract the ID of the other participant from the request parameters.
-    const { otherUserId } = req.params;
-    // Retrieve the current user's ID from the request object.
-    const userId = req.user._id;
+	// Extract the ID of the other participant from the request parameters.
+	const { otherUserId } = req.params;
 
-    try {
-        // Attempt to find a conversation that includes both the current user and the other user.
-        const conversation = await Conversation.findOne({
-            participants: { $all: [userId, otherUserId] },
-        });
+	// Retrieve the current user's ID from the request object.
+	const userId = req.user._id;
 
-        // If no conversation is found, return a 404 error with a message.
-        if (!conversation) {
-            return res.status(404).json({ error: "Conversation not found" });
-        }
+	try {
+		// Attempt to find a conversation that includes both the current user and the other user.
+		const conversation = await Conversation.findOne({
+			participants: { $all: [userId, otherUserId] },
+		});
 
-        // Retrieve all messages from the found conversation, sorted by creation time.
-        const messages = await Message.find({
-            conversationId: conversation._id,
-        }).sort({ createdAt: 1 });
+		// If no conversation is found, return a 404 error with a message.
+		if (!conversation) {
+			return res.status(404).json({ error: "Conversation not found" });
+		}
 
-        // Return the messages with a 200 OK status.
-        res.status(200).json(messages);
-    } catch (error) {
-        // Handle any errors during the process by returning a 500 server error status and the error message.
-        res.status(500).json({ error: error.message });
-    }
+		// Retrieve all messages from the found conversation, sorted by creation time.
+		const messages = await Message.find({
+			conversationId: conversation._id,
+		}).sort({ createdAt: 1 });
+
+		// Return the messages with a 200 OK status.
+		res.status(200).json(messages);
+	} catch (error) {
+		// Handle any errors during the process by returning a 500 server error status and the error message.
+		res.status(500).json({ error: error.message });
+	}
 }
 
 async function getConversations(req, res) {
-    // Extracts the user ID from the request object.
-    const userId = req.user._id;
-    
-    try {
-        // Fetches all conversations where the user is a participant and populates participant details.
-        const conversations = await Conversation.find({ participants: userId }).populate({
-            path: "participants",
-            select: "username profilePic",
-        });
+	// Extracts the user ID from the request object.
+	const userId = req.user._id;
 
-        // Filters out the current user from the participants array in each conversation.
-        conversations.forEach((conversation) => {
-            conversation.participants = conversation.participants.filter(
-                (participant) => participant._id.toString() !== userId.toString()
-            );
-        });
-        
-        // Sends the filtered conversations as a JSON response with status 200 (OK).
-        res.status(200).json(conversations);
-    } catch (error) {
-        // Sends an error message as a JSON response with status 500 (Internal Server Error) if an error occurs.
-        res.status(500).json({ error: error.message });
-    }
+	try {
+		// Fetches all conversations where the user is a participant and populates participant details.
+		const conversations = await Conversation.find({ participants: userId }).populate({
+			path: "participants",
+			select: "username profilePic",
+		});
+
+		// Filters out the current user from the participants array in each conversation.
+		conversations.forEach((conversation) => {
+			conversation.participants = conversation.participants.filter((participant) => participant._id.toString() !== userId.toString());
+		});
+
+		// Sends the filtered conversations as a JSON response with status 200 (OK).
+		res.status(200).json(conversations);
+	} catch (error) {
+		// Sends an error message as a JSON response with status 500 (Internal Server Error) if an error occurs.
+		res.status(500).json({ error: error.message });
+	}
 }
-
 
 export { sendMessage, getMessages, getConversations };
