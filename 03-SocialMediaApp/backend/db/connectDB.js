@@ -1,3 +1,11 @@
+/*
+- This code sets up a connection to a MongoDB database using the Mongoose library.
+- It attempts to connect using a connection string stored in an environment variable.
+- On successful connection, it logs the MongoDB server host.
+- If the connection fails, it logs the error and exits the application with an error status.
+- The connection uses options to utilize the latest MongoDB driver features and avoid deprecation warnings.
+*/
+
 import mongoose from "mongoose";
 
 // This function asynchronously establishes a connection to a MongoDB database.
