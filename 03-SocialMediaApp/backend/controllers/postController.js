@@ -1,7 +1,17 @@
+/*
+- This code implements a series of CRUD operations for managing social media posts.
+- It includes functionalities to create, retrieve, update, delete, like, unlike, and reply to posts.
+- Cloudinary is used for handling image uploads, ensuring secure and efficient media management.
+- Error handling and user authorization checks are extensively integrated to maintain data integrity and security.
+- The code utilizes async/await for asynchronous database operations, making it efficient and easy to read.
+*/
+
+// Importing the necessary modules and models for post and user management
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 import { v2 as cloudinary } from "cloudinary";
 
+// Function to create a new post
 const createPost = async (req, res) => {
 	try {
 		// Destructure postedBy and text from request body
@@ -61,6 +71,7 @@ const createPost = async (req, res) => {
 	}
 };
 
+// Function to retrieve a post by ID
 const getPost = async (req, res) => {
 	try {
 		// Tries to find a post by ID provided in the request parameters
@@ -80,6 +91,7 @@ const getPost = async (req, res) => {
 	}
 };
 
+// Function to delete a post by ID
 const deletePost = async (req, res) => {
 	try {
 		// Attempt to find a Post document by its ID, using the ID parameter from the request.
@@ -112,6 +124,7 @@ const deletePost = async (req, res) => {
 	}
 };
 
+// Function to like or unlike a post based on whether the user has already liked it
 const likeUnlikePost = async (req, res) => {
 	try {
 		// Extracting post ID from request parameters
@@ -154,6 +167,7 @@ const likeUnlikePost = async (req, res) => {
 	}
 };
 
+// Function to add a reply to a post
 const replyToPost = async (req, res) => {
 	try {
 		// Destructuring to extract 'text' from the request body
@@ -197,6 +211,7 @@ const replyToPost = async (req, res) => {
 	}
 };
 
+// Function to fetch posts for a user's feed based on who they follow
 const getFeedPosts = async (req, res) => {
 	try {
 		// Extract the user ID from the request object.
@@ -224,6 +239,7 @@ const getFeedPosts = async (req, res) => {
 	}
 };
 
+// Function to fetch all posts made by a specific user
 const getUserPosts = async (req, res) => {
 	// Extract username from the request parameters
 	const { username } = req.params;
