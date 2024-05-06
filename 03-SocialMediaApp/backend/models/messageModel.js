@@ -15,17 +15,19 @@ const messageSchema = new mongoose.Schema(
 		// Define a field for the ID of the conversation this message is part of
 		conversationId: {
 			type: mongoose.Schema.Types.ObjectId, // Use ObjectId data type for MongoDB documents
-			ref: "Conversation", // Reference the 'Conversation' model
+			ref: "Conversation", // Reference the 'Conversation' model to establish a relationship
 		},
 
 		// Define a field for the ID of the user who sent the message
 		sender: {
 			type: mongoose.Schema.Types.ObjectId, // Use ObjectId data type for MongoDB documents
-			ref: "User", // Reference the 'User' model
+			ref: "User", // Reference the 'User' model to establish a relationship
 		},
 
 		// Define a field for the text content of the message
-		text: String,
+		text: {
+			type: String, // Use String type for text content of the message
+		},
 
 		// Define a boolean field to track whether the message has been seen by the recipient
 		seen: {
@@ -36,7 +38,7 @@ const messageSchema = new mongoose.Schema(
 		// Define an optional field for an image URL associated with the message
 		img: {
 			type: String,
-			default: "", // Set default as an empty string, indicating no image is attached
+			default: "", // Set default as an empty string, indicating no image is attached unless specified
 		},
 	},
 	{
