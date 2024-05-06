@@ -1,55 +1,82 @@
+/*
+- This code defines a MongoDB schema for a User model using Mongoose.
+- It includes fields for name, username, email, and password which are all required.
+- The username and email fields are set as unique to prevent duplicate entries.
+- Additional fields like profile picture, followers, following, bio, and account status are also defined.
+- The schema utilizes timestamps to automatically add `createdAt` and `updatedAt` fields to each document.
+*/
+
+// Import mongoose to utilize its functionalities for MongoDB operations
 import mongoose from "mongoose";
 
-// Define a schema for user profiles in an application using Mongoose
+// Define a schema for the User model with specific fields and validations
 const userSchema = mongoose.Schema(
 	{
+		// Name field, which is a required string
 		name: {
 			type: String,
-			required: true, // The name field is mandatory
+			required: true,
 		},
+
+		// Username field, which is a required string and must be unique
 		username: {
 			type: String,
-			required: true, // The username field is mandatory
-			unique: true, // The username must be unique across all users
+			required: true,
+			unique: true,
 		},
+
+		// Email field, which is a required string and must be unique
 		email: {
 			type: String,
-			required: true, // The email field is mandatory
-			unique: true, // The email must be unique across all users
+			required: true,
+			unique: true,
 		},
+
+		// Password field, which is a required string with a minimum length of 6 characters
 		password: {
 			type: String,
-			minLength: 6, // The minimum length for the password is 6 characters
-			required: true, // The password field is mandatory
+			minLength: 6,
+			required: true,
 		},
+
+		// Profile picture field, optional with a default empty string
 		profilePic: {
 			type: String,
-			default: "", // Default value for the profile picture is an empty string
+			default: "",
 		},
+
+		// Followers field, an array of strings representing user IDs of followers, default is an empty array
 		followers: {
-			type: [String], // An array of user IDs representing followers of this user
-			default: [], // Default is an empty array
+			type: [String],
+			default: [],
 		},
+
+		// Following field, an array of strings representing user IDs this user is following, default is an empty array
 		following: {
-			type: [String], // An array of user IDs that this user is following
-			default: [], // Default is an empty array
+			type: [String],
+			default: [],
 		},
+
+		// Bio field, optional string for user biography, default is an empty string
 		bio: {
 			type: String,
-			default: "", // Default value for bio is an empty string
+			default: "",
 		},
+
+		// isFrozen field, a boolean representing if the user account is temporarily frozen, default is false
 		isFrozen: {
 			type: Boolean,
-			default: false, // Indicates whether the user's account is frozen; default is not frozen
+			default: false,
 		},
 	},
 	{
-		timestamps: true, // Automatically manage createdAt and updatedAt timestamps for the user document
+		// Enable automatic handling of createdAt and updatedAt fields
+		timestamps: true,
 	}
 );
 
-// Create the User model using the defined schema
+// Compile the schema into a model which creates a collection named 'users' in MongoDB
 const User = mongoose.model("User", userSchema);
 
-// Export the User model so it can be used elsewhere in the application
+// Export the User model to be used in other parts of the application
 export default User;
