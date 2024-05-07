@@ -1,35 +1,43 @@
-// Import the Express module to facilitate the creation of an HTTP server API.
+/*
+- This code initializes and configures routes for a social media application's server.
+- It imports necessary functions from the post controller which manage CRUD operations for posts.
+- Middlewares are utilized to protect routes that require user authentication.
+- The router is set up to handle various endpoints related to posts, such as fetching, creating, and modifying posts.
+- It ensures that only authenticated users can access certain sensitive routes like creating or deleting posts.
+*/
+
+// Import the Express framework to facilitate routing
 import express from "express";
 
-// Import various post-related controllers to handle specific API endpoint logic.
+// Import specific controller functions that manage post interactions
 import { createPost, deletePost, getPost, likeUnlikePost, replyToPost, getFeedPosts, getUserPosts } from "../controllers/postController.js";
 
-// Import middleware to protect routes that require authentication.
+// Import middleware to protect routes that require user authentication
 import protectRoute from "../middlewares/protectRoute.js";
 
-// Create a new router object to manage route endpoints.
+// Create a new router object from Express to define API routes
 const router = express.Router();
 
-// Route to get posts for the feed of a user, requires authentication.
+// Define a route to get all posts for the feed, protected by authentication
 router.get("/feed", protectRoute, getFeedPosts);
 
-// Route to get a specific post by its ID.
+// Define a route to get a single post by ID, no authentication required
 router.get("/:id", getPost);
 
-// Route to get all posts by a specific user, identified by their username.
+// Define a route to get all posts by a specific user, no authentication required
 router.get("/user/:username", getUserPosts);
 
-// Route to create a new post, requires authentication.
+// Define a route to create a new post, protected by authentication
 router.post("/create", protectRoute, createPost);
 
-// Route to delete a specific post by its ID, requires authentication.
+// Define a route to delete a post by ID, protected by authentication
 router.delete("/:id", protectRoute, deletePost);
 
-// Route to like or unlike a post by its ID, requires authentication.
+// Define a route to toggle the like status of a post, protected by authentication
 router.put("/like/:id", protectRoute, likeUnlikePost);
 
-// Route to reply to a specific post by its ID, requires authentication.
+// Define a route to reply to a post, also protected by authentication
 router.put("/reply/:id", protectRoute, replyToPost);
 
-// Export the router to be mounted by the main application.
+// Export the configured router
 export default router;
