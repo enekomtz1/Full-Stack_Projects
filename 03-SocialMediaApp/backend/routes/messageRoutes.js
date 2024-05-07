@@ -1,27 +1,31 @@
 /*
-- This code sets up routing for a messaging application using the Express framework.
-- It imports necessary functions and middleware, including route protection and message controllers.
-- Routes are defined to handle retrieving conversations, fetching messages, and sending new messages.
-- Each route is secured with an authorization middleware to ensure that only authenticated users can access these endpoints.
-- The router is then exported for integration with the main application server.
+- This code sets up routing for a messaging service using the Express.js framework.
+- It imports necessary middleware and controller functions from external files.
+- The 'protectRoute' middleware is applied to each route to ensure that only authenticated users can access them.
+- Routes are defined to handle fetching conversations, individual messages, and sending messages.
+- The router is then exported for use in the main application, allowing these routes to be attached to an Express app.
 */
 
-// Import the Express framework, route protection middleware, and message controller functions.
+// Import the express module to create router handlers.
 import express from "express";
+
+// Import middleware to protect routes by ensuring user authentication.
 import protectRoute from "../middlewares/protectRoute.js";
+
+// Import controller functions to handle the logic for message operations.
 import { getMessages, sendMessage, getConversations } from "../controllers/messageController.js";
 
-// Create a new router instance to define and manage routes.
+// Create a new router object to handle route requests.
 const router = express.Router();
 
-// Define a GET route to fetch all conversation metadata, secured with the protectRoute middleware.
+// Define a GET route to retrieve all conversations for the authenticated user.
 router.get("/conversations", protectRoute, getConversations);
 
-// Define a GET route to retrieve messages from a specific user by their ID, also secured by the protectRoute middleware.
+// Define a GET route to retrieve messages with a specific user, identified by 'otherUserId'.
 router.get("/:otherUserId", protectRoute, getMessages);
 
-// Define a POST route to allow the sending of a new message, ensuring the user is authenticated with the protectRoute middleware.
+// Define a POST route to send a new message.
 router.post("/", protectRoute, sendMessage);
 
-// Export the router module for use in the main server setup, making these routes accessible.
+// Export the router for use in the main server setup.
 export default router;
