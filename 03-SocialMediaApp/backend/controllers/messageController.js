@@ -6,28 +6,30 @@
 - Error handling is incorporated to manage and respond to exceptions effectively.
 */
 
+// Import necessary models and utilities
 import Conversation from "../models/conversationModel.js";
 import Message from "../models/messageModel.js";
 import { getRecipientSocketId, io } from "../socket/socket.js";
 import { v2 as cloudinary } from "cloudinary";
 
+// Function to send a message between users
 async function sendMessage(req, res) {
 	try {
-		// Destructure recipient ID and message from the request body
+		// Destructure necessary data from the request body
 		const { recipientId, message } = req.body;
 
-		// Extract the image URL from the request body, if present
+		// Optional: Extract the image URL from the request if provided
 		let { img } = req.body;
 
-		// Get the sender's ID from the user's authenticated session
+		// Retrieve the sender's ID from the authenticated session
 		const senderId = req.user._id;
 
-		// Search for a conversation between the sender and the recipient
+		// Check for an existing conversation or create a new one
 		let conversation = await Conversation.findOne({
 			participants: { $all: [senderId, recipientId] },
 		});
 
-		// If no existing conversation is found, create a new one
+		// Create a new conversation if one does not exist
 		if (!conversation) {
 			conversation = new Conversation({
 				participants: [senderId, recipientId],
@@ -36,24 +38,24 @@ async function sendMessage(req, res) {
 					sender: senderId,
 				},
 			});
-			await conversation.save(); // Persist the new conversation to the database
+			await conversation.save(); // Save the new conversation to the database
 		}
 
-		// If an image is included in the message, upload it to Cloudinary
+		// If an image is included, upload it to Cloudinary and get a secured URL
 		if (img) {
 			const uploadedResponse = await cloudinary.uploader.upload(img);
-			img = uploadedResponse.secure_url; // Update the image URL to the secured one provided by Cloudinary
+			img = uploadedResponse.secure_url; // Update image URL to the secure one
 		}
 
-		// Create a new message object with the conversation ID, sender, text, and image
+		// Create a new message object with all relevant information
 		const newMessage = new Message({
 			conversationId: conversation._id,
 			sender: senderId,
 			text: message,
-			img: img || "", // Use the image URL if available, otherwise default to an empty string
+			img: img || "", // Include image URL if available, otherwise default to empty
 		});
 
-		// Save the new message and update the last message in the conversation atomically
+		// Save the message and update the conversation atomically
 		await Promise.all([
 			newMessage.save(),
 			conversation.updateOne({
@@ -64,73 +66,74 @@ async function sendMessage(req, res) {
 			}),
 		]);
 
-		// Retrieve the socket ID of the recipient to enable real-time messaging
+		// Emit the new message to the recipient using their socket ID
 		const recipientSocketId = getRecipientSocketId(recipientId);
 		if (recipientSocketId) {
-			io.to(recipientSocketId).emit("newMessage", newMessage); // Emit the message event to the recipient's socket
+			io.to(recipientSocketId).emit("newMessage", newMessage);
 		}
 
-		// Send a successful response with the message data
+		// Respond with the newly created message
 		res.status(201).json(newMessage);
 	} catch (error) {
-		// In case of an error, respond with a 500 status code and the error message
+		// Handle any errors with a server error response
 		res.status(500).json({ error: error.message });
 	}
 }
 
+// Function to retrieve messages from a specific conversation
 async function getMessages(req, res) {
-	// Extract the ID of the other participant from the request parameters.
+	// Retrieve other participant's ID and user's ID from the request
 	const { otherUserId } = req.params;
-
-	// Retrieve the current user's ID from the request object.
 	const userId = req.user._id;
 
 	try {
-		// Attempt to find a conversation that includes both the current user and the other user.
+		// Find a conversation involving both users
 		const conversation = await Conversation.findOne({
 			participants: { $all: [userId, otherUserId] },
 		});
 
-		// If no conversation is found, return a 404 error with a message.
+		// If no conversation exists, return a not found error
 		if (!conversation) {
 			return res.status(404).json({ error: "Conversation not found" });
 		}
 
-		// Retrieve all messages from the found conversation, sorted by creation time.
+		// Retrieve and sort all messages in the conversation by creation time
 		const messages = await Message.find({
 			conversationId: conversation._id,
 		}).sort({ createdAt: 1 });
 
-		// Return the messages with a 200 OK status.
+		// Return the messages to the client
 		res.status(200).json(messages);
 	} catch (error) {
-		// Handle any errors during the process by returning a 500 server error status and the error message.
+		// Respond with an error in case of failure
 		res.status(500).json({ error: error.message });
 	}
 }
 
+// Function to list all conversations of a user
 async function getConversations(req, res) {
-	// Extracts the user ID from the request object.
+	// Get user ID from the authenticated session
 	const userId = req.user._id;
 
 	try {
-		// Fetches all conversations where the user is a participant and populates participant details.
+		// Fetch all conversations involving the user and populate participant details
 		const conversations = await Conversation.find({ participants: userId }).populate({
 			path: "participants",
 			select: "username profilePic",
 		});
 
-		// Filters out the current user from the participants array in each conversation.
+		// Filter out the current user from the participants list
 		conversations.forEach((conversation) => {
 			conversation.participants = conversation.participants.filter((participant) => participant._id.toString() !== userId.toString());
 		});
 
-		// Sends the filtered conversations as a JSON response with status 200 (OK).
+		// Send filtered conversations back to the user
 		res.status(200).json(conversations);
 	} catch (error) {
-		// Sends an error message as a JSON response with status 500 (Internal Server Error) if an error occurs.
+		// Handle errors by sending an internal server error response
 		res.status(500).json({ error: error.message });
 	}
 }
 
+// Export all functions for use in other parts of the application
 export { sendMessage, getMessages, getConversations };
