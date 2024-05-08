@@ -1,16 +1,19 @@
 /*
-- Creating a Recoil atom to manage the state of posts.
-- `postsAtom` is initialized as an empty array and is identified by the unique key 'postsAtom'.
-- Atoms in Recoil represent pieces of state that can be read from and written to from different components.
+- This code defines a state management atom using the Recoil library.
+- The atom is intended to manage the state of posts within an application.
+- It is named 'postsAtom' and serves as a unique identifier for the atom.
+- Initially, the default state of this atom is set to an empty array.
+- The atom can be imported and used in different parts of the application to maintain consistent state.
 */
 
-// Importing the atom function from the recoil package.
+// Import the 'atom' function from the 'recoil' package
 import { atom } from "recoil";
 
+// Define 'postsAtom' using the atom function
 const postsAtom = atom({
-	key: "postsAtom", // Unique key for the atom, used in debugging and persistence.
-	default: [], // Default value for the atom, defining the initial state.
+	key: "postsAtom", // Unique key for the atom, used for identifying the atom in the application
+	default: [], // Default value for the atom's state, initially an empty array
 });
 
-// Exporting `postsAtom` for use across the application.
+// Export the 'postsAtom' to be used in other parts of the application
 export default postsAtom;
