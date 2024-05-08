@@ -1,24 +1,27 @@
 /*
-- This code manages conversation-related states using the Recoil library.
-- It defines two atoms: one for all conversations and another for the selected conversation.
-- Atoms in Recoil are units of state that can be updated and subscribed to.
+- This code defines state management using Recoil atoms.
+- It is part of a larger application that handles conversations.
+- The 'conversationsAtom' holds an array of conversations, initially empty.
+- The 'selectedConversationAtom' keeps track of the currently selected conversation.
+- It initializes 'selectedConversationAtom' with default values for conversation details.
 */
 
+// Importing 'atom' from Recoil, which is used for creating atom states.
 import { atom } from "recoil";
 
-// Defines an atom to hold all conversations, initializes with an empty array.
+// Defines an atom to store the list of conversations. Initially, this list is empty.
 export const conversationsAtom = atom({
-	key: "conversationsAtom", // Unique identifier for this atom.
-	default: [], // Initial state is an empty list of conversations.
+	key: "conversationsAtom", // Unique key for this atom, used in debugging and persistence.
+	default: [], // Default value for the atom, an empty array in this case.
 });
 
-// Defines an atom to store the currently active conversation's details.
+// Defines an atom for storing the currently selected conversation with default values.
 export const selectedConversationAtom = atom({
-	key: "selectedConversationAtom", // Unique identifier for this atom.
+	key: "selectedConversationAtom", // Unique key for the atom, specific to the selected conversation.
 	default: {
-		_id: "", // The default ID is an empty string, indicating no conversation is selected.
-		userId: "", // Default user ID is empty, which will be updated when a conversation is selected.
-		username: "", // Starts with no username, to be filled when a conversation is chosen.
-		userProfilePic: "", // The URL for the user's profile picture, defaults to empty.
+		_id: "", // Default ID of the conversation, empty initially.
+		userId: "", // Default user ID associated with the conversation, empty initially.
+		username: "", // Default username, empty initially.
+		userProfilePic: "", // Default path or URL to user's profile picture, empty initially.
 	},
 });
