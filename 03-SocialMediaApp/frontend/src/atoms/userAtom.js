@@ -1,17 +1,21 @@
 /*
-- This file defines a Recoil atom for managing user state.
-- The `userAtom` is initialized with data from localStorage.
-- Data is retrieved from localStorage under the key "user-threads".
-- If "user-threads" does not exist in localStorage, the atom's default value will be `null`.
+- This code defines a state management atom using the Recoil library.
+- It creates an atom to handle user-related data across React components.
+- The atom is identified by a unique key 'userAtom'.
+- It initializes the atom's default state with data retrieved from the browser's localStorage.
+- The retrieved data is parsed from a JSON string to an object format.
 */
 
-import { atom } from "recoil"; // Import the atom utility from Recoil to create atom states.
+// Import the `atom` function from the Recoil library for state management.
+import { atom } from "recoil";
 
+// Define `userAtom` using the `atom` function, which will store user-related data.
 const userAtom = atom({
-	key: "userAtom", // Unique identifier for this particular atom within the Recoil state management.
-	default: JSON.parse(localStorage.getItem("user-threads") || "null"), // Initialize the atom's default value.
-	// Retrieves the "user-threads" data from localStorage and parses it as JSON.
-	// If there is no data, it falls back to 'null'.
+	// Assign a unique key to the atom for identification in the Recoil ecosystem.
+	key: "userAtom",
+	// Set the default state of the atom by retrieving and parsing user data stored in localStorage.
+	default: JSON.parse(localStorage.getItem("user-threads")),
 });
 
-export default userAtom; // Export the atom for use throughout the application.
+// Export `userAtom` to be available for use in other parts of the application.
+export default userAtom;
