@@ -1,27 +1,26 @@
 /*
-- This code defines state management using Recoil atoms.
-- It is part of a larger application that handles conversations.
-- The 'conversationsAtom' holds an array of conversations, initially empty.
-- The 'selectedConversationAtom' keeps track of the currently selected conversation.
-- It initializes 'selectedConversationAtom' with default values for conversation details.
+- This code defines state management using Recoil for a React application.
+- It provides two atoms: conversationsAtom and selectedConversationAtom.
+- conversationsAtom holds a list of conversation objects.
+- selectedConversationAtom stores the currently selected conversation's details.
+- These atoms are used throughout the app to manage and access conversation states dynamically.
 */
 
-// Importing 'atom' from Recoil, which is used for creating atom states.
 import { atom } from "recoil";
 
-// Defines an atom to store the list of conversations. Initially, this list is empty.
+// Define an atom to store the array of conversations.
 export const conversationsAtom = atom({
-	key: "conversationsAtom", // Unique key for this atom, used in debugging and persistence.
-	default: [], // Default value for the atom, an empty array in this case.
+	key: "conversationsAtom", // Unique key for referencing the atom.
+	default: [], // Default value is an empty array.
 });
 
-// Defines an atom for storing the currently selected conversation with default values.
+// Define an atom to store details of the selected conversation.
 export const selectedConversationAtom = atom({
-	key: "selectedConversationAtom", // Unique key for the atom, specific to the selected conversation.
+	key: "selectedConversationAtom", // Unique key for referencing the atom.
 	default: {
-		_id: "", // Default ID of the conversation, empty initially.
-		userId: "", // Default user ID associated with the conversation, empty initially.
-		username: "", // Default username, empty initially.
-		userProfilePic: "", // Default path or URL to user's profile picture, empty initially.
+		_id: "", // Default ID is an empty string.
+		userId: "", // Default userId is an empty string.
+		username: "", // Default username is an empty string.
+		userProfilePic: "", // Default user profile picture is an empty string.
 	},
 });
