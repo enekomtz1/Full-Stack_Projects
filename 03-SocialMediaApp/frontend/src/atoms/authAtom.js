@@ -1,19 +1,19 @@
 /*
-- This code implements state management for authentication screens using Recoil.
-- It defines an atom, which is a unit of state in Recoil, to manage the current authentication screen.
-- The 'authScreenAtom' atom is used to store and track which authentication screen is currently active.
-- It initially sets the default state to "login", indicating that the login screen is the default screen.
-- This atom can be imported and used in various components to reactively update and access the state of the authentication screen.
+- This code snippet defines an atomic piece of state using the Recoil library.
+- The state is specifically designed to manage the authentication screen's status.
+- It creates a state atom named 'authScreenAtom'.
+- The default state for this atom is set to "login", indicating the initial screen.
+- This atom can be used and updated throughout a React application to change or read the auth screen status.
 */
 
-// Importing the 'atom' function from the 'recoil' package, which is used for creating atoms.
+// Import the 'atom' function from the Recoil library to create state atoms
 import { atom } from "recoil";
 
-// Creating an atom named 'authScreenAtom' to hold the state of the current authentication screen.
+// Define 'authScreenAtom' to manage the authentication screen's state
 const authScreenAtom = atom({
-	key: "authScreenAtom", // Unique key for the atom, used internally by Recoil for identification.
-	default: "login", // Setting the default value of the atom to "login".
+	key: "authScreenAtom", // Unique key for the atom, used in debugging and persisting state
+	default: "login", // Default value of the atom, setting the initial state to 'login'
 });
 
-// Exporting 'authScreenAtom' so it can be used in other parts of the application.
+// Export the 'authScreenAtom' so it can be used across the application
 export default authScreenAtom;
