@@ -5,6 +5,14 @@
 - It leverages the Chakra UI library for modal and button elements to provide a responsive UI.
 - Error handling and user feedback are managed through custom toast notifications and conditional rendering.
 */
+
+import { Box, Button, Flex, FormControl, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+import useShowToast from "../hooks/useShowToast";
+import postsAtom from "../atoms/postsAtom";
+
 const Actions = ({ post }) => {
 	// Use Recoil to fetch the current user object from a global state atom
 	const user = useRecoilValue(userAtom);
