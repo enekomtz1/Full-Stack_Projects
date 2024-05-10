@@ -7,3 +7,5 @@
 */
 
 import mongoose from "mongoose"; // Import Mongoose to interact with MongoDB.
+
+// Define the schema for the User model with specific attributes and constraints.
