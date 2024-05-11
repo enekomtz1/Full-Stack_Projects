@@ -11,3 +11,10 @@ import bcrypt from "bcryptjs"; // Import bcryptjs for password hashing and verif
 
 import User from "../models/user.model.js"; // Import the User model from the models directory
 import { GraphQLLocalStrategy } from "graphql-passport"; // Import GraphQLLocalStrategy for passport authentication in GraphQL
+
+export const configurePassport = async () => { // Define an asynchronous function to configure passport
+    // Serialize user function to store a user ID in the session
+    passport.serializeUser((user, done) => {
+        console.log("Serializing user"); // Log serializing process
+        done(null, user.id); // Pass user ID to done function to store in session
+    });
