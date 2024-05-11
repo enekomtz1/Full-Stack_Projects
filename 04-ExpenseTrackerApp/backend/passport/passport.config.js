@@ -5,3 +5,6 @@
 - Error handling is integrated to manage incorrect username or password inputs securely.
 - Bcrypt.js is utilized to safely compare hashed passwords.
 */
+
+import passport from "passport"; // Import passport for authentication handling
+import bcrypt from "bcryptjs"; // Import bcryptjs for password hashing and verification
