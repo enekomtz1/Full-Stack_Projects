@@ -8,3 +8,6 @@
 
 import passport from "passport"; // Import passport for authentication handling
 import bcrypt from "bcryptjs"; // Import bcryptjs for password hashing and verification
+
+import User from "../models/user.model.js"; // Import the User model from the models directory
+import { GraphQLLocalStrategy } from "graphql-passport"; // Import GraphQLLocalStrategy for passport authentication in GraphQL
