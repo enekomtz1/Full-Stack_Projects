@@ -15,3 +15,6 @@ import transactionResolver from "./transaction.resolver.js";
 
 // Merge the imported resolvers into a single resolver object
 const mergedResolvers = mergeResolvers([userResolver, transactionResolver]);
+
+// Export the merged resolver object for use in the GraphQL server configuration
+export default mergedResolvers;
