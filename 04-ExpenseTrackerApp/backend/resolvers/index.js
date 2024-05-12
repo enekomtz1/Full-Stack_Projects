@@ -8,3 +8,7 @@
 
 // Import the mergeResolvers function to combine multiple resolver definitions
 import { mergeResolvers } from "@graphql-tools/merge";
+
+// Import resolver modules for users and transactions from the respective files
+import userResolver from "./user.resolver.js";
+import transactionResolver from "./transaction.resolver.js";
