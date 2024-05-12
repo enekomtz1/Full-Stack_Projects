@@ -12,3 +12,6 @@ import { mergeResolvers } from "@graphql-tools/merge";
 // Import resolver modules for users and transactions from the respective files
 import userResolver from "./user.resolver.js";
 import transactionResolver from "./transaction.resolver.js";
+
+// Merge the imported resolvers into a single resolver object
+const mergedResolvers = mergeResolvers([userResolver, transactionResolver]);
