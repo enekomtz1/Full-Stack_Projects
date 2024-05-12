@@ -5,3 +5,6 @@
 - It merges these two resolver modules into a single resolver object.
 - The merged resolvers are then exported for use in GraphQL server setup.
 */
+
+// Import the mergeResolvers function to combine multiple resolver definitions
+import { mergeResolvers } from "@graphql-tools/merge";
