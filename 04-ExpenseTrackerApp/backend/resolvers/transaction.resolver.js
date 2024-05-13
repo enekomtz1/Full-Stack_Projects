@@ -5,3 +5,5 @@
 - Error handling is implemented to manage unauthorized access and other transaction-related errors.
 - The resolver utilizes Mongoose models to interact with a MongoDB database for transaction data.
 */
+
+import Transaction from "../models/transaction.model.js"; // Import the Transaction model
