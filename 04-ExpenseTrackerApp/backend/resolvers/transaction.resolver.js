@@ -7,3 +7,4 @@
 */
 
 import Transaction from "../models/transaction.model.js"; // Import the Transaction model
+import User from "../models/user.model.js";  // Import the User model
