@@ -5,3 +5,5 @@
 - The login and logout resolvers manage user sessions.
 - Additionally, the code provides queries to retrieve the authenticated user or a specific user by ID.
 */
+
+import Transaction from "../models/transaction.model.js";  // Import the Transaction model from the model directory.
