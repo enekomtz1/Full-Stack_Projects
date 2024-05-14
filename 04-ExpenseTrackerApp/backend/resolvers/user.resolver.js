@@ -8,3 +8,4 @@
 
 import Transaction from "../models/transaction.model.js";  // Import the Transaction model from the model directory.
 import User from "../models/user.model.js";                // Import the User model for accessing user data.
+import bcrypt from "bcryptjs";                             // Import bcryptjs for password hashing.
