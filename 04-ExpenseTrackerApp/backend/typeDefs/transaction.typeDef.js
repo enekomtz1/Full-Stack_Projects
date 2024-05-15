@@ -20,10 +20,48 @@ const transactionTypeDef = `#graphql
     date: String!
     user: User!
   }
-  
+
   // Query type for fetching transactions and related statistics
   type Query {
     transactions: [Transaction!]
     transaction(transactionId: ID!): Transaction
     categoryStatistics: [CategoryStatistics!]
-  }`;
+  }
+
+  // Mutation type for creating, updating, and deleting transactions
+  type Mutation {
+    createTransaction(input: CreateTransactionInput!): Transaction!
+    updateTransaction(input: UpdateTransactionInput!): Transaction!
+    deleteTransaction(transactionId: ID!): Transaction!
+  }
+
+  // Define CategoryStatistics type for tracking financial statistics by category
+  type CategoryStatistics {
+    category: String!
+    totalAmount: Float!
+  }
+
+  // Input type for creating a new transaction
+  input CreateTransactionInput {
+    description: String!
+    paymentType: String!
+    category: String!
+    amount: Float!
+    date: String!
+    location: String
+  }
+
+  // Input type for updating an existing transaction
+  input UpdateTransactionInput {
+    transactionId: ID!
+    description: String
+    paymentType: String
+    category: String
+    amount: Float
+    location: String
+    date: String
+  }
+`;
+
+// Export the transaction type definition for use in other parts of the application
+export default transactionTypeDef;
