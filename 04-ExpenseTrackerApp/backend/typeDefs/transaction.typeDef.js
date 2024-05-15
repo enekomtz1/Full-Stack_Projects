@@ -7,3 +7,16 @@
 */
 
 // Define GraphQL schema for transaction data types
+const transactionTypeDef = `#graphql
+  // Define a Transaction type with necessary fields
+  type Transaction {
+    _id: ID!
+    userId: ID!
+    description: String!
+    paymentType: String!
+    category: String!
+    amount: Float!
+    location: String
+    date: String!
+    user: User!
+  }`;
