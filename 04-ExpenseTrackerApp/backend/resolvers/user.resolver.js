@@ -149,3 +149,4 @@ const userResolver = {
 
 // Export the userResolver to make it available for GraphQL operations elsewhere in the application.
 export default userResolver;
+
