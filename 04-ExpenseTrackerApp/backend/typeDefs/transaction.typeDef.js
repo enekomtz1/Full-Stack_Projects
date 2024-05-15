@@ -19,4 +19,11 @@ const transactionTypeDef = `#graphql
     location: String
     date: String!
     user: User!
+  }
+  
+  // Query type for fetching transactions and related statistics
+  type Query {
+    transactions: [Transaction!]
+    transaction(transactionId: ID!): Transaction
+    categoryStatistics: [CategoryStatistics!]
   }`;
