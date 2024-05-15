@@ -5,3 +5,5 @@
 - Each type is detailed with required fields, ensuring data integrity.
 - The system is designed to be used in financial or commercial applications where transaction data is critical.
 */
+
+// Define GraphQL schema for transaction data types
