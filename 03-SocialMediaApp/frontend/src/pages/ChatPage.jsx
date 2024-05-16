@@ -18,4 +18,6 @@ import { conversationsAtom, selectedConversationAtom } from "../atoms/messagesAt
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext";
 
-const ChatPage = () => {};
+const ChatPage = () => {
+	// State to handle user search status
+};
