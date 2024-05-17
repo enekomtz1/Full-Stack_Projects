@@ -9,3 +9,4 @@
 // Define the GraphQL schema for user-related operations
 
 const userTypeDef = `#graphql
+// Define the User type with necessary fields and their types
