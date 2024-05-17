@@ -7,3 +7,5 @@
 */
 
 // Define the GraphQL schema for user-related operations
+
+const userTypeDef = `#graphql
