@@ -1,4 +1,5 @@
 /*
 - This code defines GraphQL queries using the Apollo Client library.
+- The first query, GET_AUTHENTICATED_USER, retrieves data about the currently authenticated user.
 
 */
