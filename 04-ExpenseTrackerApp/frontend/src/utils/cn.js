@@ -1,2 +1,2 @@
 import { clsx } from "clsx";
-import { twMerge } 
+import { twMerge } from "tailwind-merge";
