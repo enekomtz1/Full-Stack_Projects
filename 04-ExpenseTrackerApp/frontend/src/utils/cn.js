@@ -1,1 +1,1 @@
-import { clsx }
+import { clsx } from "clsx";
