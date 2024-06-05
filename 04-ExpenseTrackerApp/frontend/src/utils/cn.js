@@ -3,7 +3,7 @@
 - The `clsx` function is used to conditionally combine class names.
 - The `twMerge` function is used to merge Tailwind CSS classes, resolving any conflicts.
 - The `cn` function takes multiple input class names as arguments.
-
+- The resulting merged and combined class names are returned by the `cn` function.
 */
 
 import { clsx } from "clsx";
