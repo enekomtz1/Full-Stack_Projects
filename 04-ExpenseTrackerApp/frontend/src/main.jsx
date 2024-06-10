@@ -17,29 +17,29 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 // Initialize the Apollo Client with configuration settings.
 const client = new ApolloClient({
-    // TODO => Update the uri on production
-    // Set the URI based on the environment.
-    uri: import.meta.env.VITE_NODE_ENV === "development" ? "http://localhost:4000/graphql" : "/graphql", // the URL of our GraphQL server.
-    // Set up caching for GraphQL queries.
-    cache: new InMemoryCache(), // Apollo Client uses to cache query results after fetching them.
-    // Include credentials (cookies) with each request.
-    credentials: "include", // This tells Apollo Client to send cookies along with every request to the server.
+	// TODO => Update the uri on production
+	// Set the URI based on the environment.
+	uri: import.meta.env.VITE_NODE_ENV === "development" ? "http://localhost:4000/graphql" : "/graphql", // the URL of our GraphQL server.
+	// Set up caching for GraphQL queries.
+	cache: new InMemoryCache(), // Apollo Client uses to cache query results after fetching them.
+	// Include credentials (cookies) with each request.
+	credentials: "include", // This tells Apollo Client to send cookies along with every request to the server.
 });
 
 // Render the application into the root HTML element.
 ReactDOM.createRoot(document.getElementById("root")).render(
-    // Enable strict mode for highlighting potential problems in the application.
-    <React.StrictMode>
-        // Set up routing for the application.
-        <BrowserRouter>
-            // Wrap the app with a grid background.
-            <GridBackground>
-                // Provide the Apollo Client to the app.
-                <ApolloProvider client={client}>
-                    // Render the main App component.
-                    <App />
-                </ApolloProvider>
-            </GridBackground>
-        </BrowserRouter>
-    </React.StrictMode>
+	// Enable strict mode for highlighting potential problems in the application.
+	<React.StrictMode>
+		{/* Set up routing for the application. */}
+		<BrowserRouter>
+			{/* Wrap the app with a grid background. */}
+			<GridBackground>
+				{/* Provide the Apollo Client to the app. */}
+				<ApolloProvider client={client}>
+					{/* Render the main App component. */}
+					<App />
+				</ApolloProvider>
+			</GridBackground>
+		</BrowserRouter>
+	</React.StrictMode>
 );
