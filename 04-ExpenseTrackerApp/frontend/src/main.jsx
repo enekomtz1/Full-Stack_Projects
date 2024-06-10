@@ -9,7 +9,7 @@
 // Import necessary libraries and components.
 import React from "react";
 import ReactDOM from "react-dom/client"; // For rendering the application to the DOM
-import App from "./App.jsx";
+import App from "./App.jsx"; // Main application component
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import GridBackground from "./components/ui/GridBackgroun.jsx";
