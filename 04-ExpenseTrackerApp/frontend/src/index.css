@@ -1,9 +1,6 @@
 /*
-- This code is a configuration for Tailwind CSS, a utility-first CSS framework.
-- The '@tailwind base;' directive includes the base styles provided by Tailwind.
-- The '@tailwind components;' directive includes any component styles provided by Tailwind.
-- The '@tailwind utilities;' directive includes all the utility classes provided by Tailwind.
-- This setup ensures a comprehensive styling solution that is easy to maintain and extend.
+- This code imports the base styles from Tailwind CSS.
+
 */
 
 /* Import base styles from Tailwind CSS */
