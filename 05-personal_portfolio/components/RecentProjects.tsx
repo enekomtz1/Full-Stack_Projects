@@ -11,6 +11,7 @@ const RecentProjects = () => {
 				{projects.map((project) => (
 					<div>{project.title}</div>
 				))}
+                <h1>Hello</h1>
 			</div>
 		</div>
 	);
