@@ -39,7 +39,7 @@ const RecentProjects = () => {
 
                                 <div>
                                     <p>Check Live Site</p>
-                                    <FaLocationArrow className='ms:3 '/>
+                                    <FaLocationArrow className='ms:3' color='#CBACF9'/>
                                 </div>
 							</div>
 						</PinContainer>
