@@ -16,6 +16,7 @@ export default function Home() {
 				<Grid />
 				<RecentProjects />
 				<Clients />
+				<Experience/>
 			</div>
 		</main>
 	);
