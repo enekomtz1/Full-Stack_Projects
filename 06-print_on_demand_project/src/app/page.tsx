@@ -16,7 +16,9 @@ export default function Home() {
 								/>
 							</div>
 
-							<h1>Your Image on a <span>Custom</span> Phone Case</h1>
+							<h1 className="relative w-fit tracking-tight">
+								Your Image on a <span>Custom</span> Phone Case
+							</h1>
 						</div>
 					</div>
 				</MaxWidthWrapper>
