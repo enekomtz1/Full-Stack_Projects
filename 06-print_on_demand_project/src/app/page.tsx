@@ -15,6 +15,8 @@ export default function Home() {
 									className="w-full"
 								/>
 							</div>
+
+							<h1></h1>
 						</div>
 					</div>
 				</MaxWidthWrapper>
