@@ -16,7 +16,7 @@ export default function Home() {
 								/>
 							</div>
 
-							<h1></h1>
+							<h1>Your Image on a <span>Custom</span> Phone Case</h1>
 						</div>
 					</div>
 				</MaxWidthWrapper>
