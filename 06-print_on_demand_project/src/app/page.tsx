@@ -11,7 +11,8 @@ export default function Home() {
 							<div className="absolute w-28 left-0 -top-20 hidden lg:block">
 								<img
 									src="/snake-1.png"
-									alt=""
+									alt="Snake-1"
+									className="w-full"
 								/>
 							</div>
 						</div>
