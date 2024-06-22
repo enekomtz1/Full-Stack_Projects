@@ -62,7 +62,7 @@ function ReviewColumn({
 				} as React.CSSProperties
 			}>
 			{reviews.concat(reviews).map((imgSrc, reviewIndex) => (
-				
+				<Review/>
 			))}
 		</div>
 	);
