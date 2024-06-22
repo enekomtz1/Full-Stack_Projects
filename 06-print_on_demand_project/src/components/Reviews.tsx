@@ -60,7 +60,9 @@ function ReviewColumn({
 				{
 					"--marquee-duration": duration,
 				} as React.CSSProperties
-			}></div>
+			}>
+			{reviews.concat(reviews)}
+			</div>
 	);
 }
 
