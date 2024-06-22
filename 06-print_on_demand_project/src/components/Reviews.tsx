@@ -61,8 +61,10 @@ function ReviewColumn({
 					"--marquee-duration": duration,
 				} as React.CSSProperties
 			}>
-			{reviews.concat(reviews)}
-			</div>
+			{reviews.concat(reviews).map((imgSrc, reviewIndex) => (
+				
+			))}
+		</div>
 	);
 }
 
