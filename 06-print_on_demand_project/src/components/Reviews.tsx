@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { HTMLAttributes, useEffect, useRef, useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -62,11 +62,17 @@ function ReviewColumn({
 				} as React.CSSProperties
 			}>
 			{reviews.concat(reviews).map((imgSrc, reviewIndex) => (
-				<Review/>
+				<Review />
 			))}
 		</div>
 	);
 }
+
+interface ReviewProps extends HTMLAttributes<HTMLDivElement> {
+	imgSrc: string;
+}
+
+function Review({}: ReviewProps) {}
 
 function ReviewGrid() {
 	/* Check if the user is viewing the animation */
