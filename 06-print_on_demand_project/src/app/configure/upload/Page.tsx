@@ -15,7 +15,7 @@ const Page = () => {
 		console.log("Accepted");
 	};
 
-	const isUploading = false;
+	const isUploading = true;
 	const [isPending, startTransition] = useTransition();
 
 	return (
