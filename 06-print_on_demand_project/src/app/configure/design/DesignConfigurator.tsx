@@ -37,7 +37,6 @@ interface DesignConfiguratorProps {
 }
 
 const DesignConfigurator = ({
-	configId,
 	imageUrl,
 	imageDimensions,
 }: DesignConfiguratorProps) => {
