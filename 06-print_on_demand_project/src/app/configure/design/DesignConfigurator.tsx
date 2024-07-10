@@ -31,6 +31,7 @@ import { saveConfig as _saveConfig, SaveConfigArgs } from "./actions";
 import { useRouter } from "next/navigation";
 
 interface DesignConfiguratorProps {
+	configId: string;
 	imageUrl: string;
 	imageDimensions: { width: number; height: number };
 }
