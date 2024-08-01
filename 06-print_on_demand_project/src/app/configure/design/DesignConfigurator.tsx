@@ -32,7 +32,6 @@ import { useRouter } from "next/navigation";
 
 interface DesignConfiguratorProps {
 	configId: string;
-	configId1: string;
 	imageUrl: string;
 	imageDimensions: { width: number; height: number };
 }
